@@ -10,6 +10,8 @@ A modern, responsive Bible web application built with HTML, CSS, and vanilla Jav
 - **Rich Chapter Rendering** — Section headings, footnotes with tooltips, poetry indentation, and Hebrew subtitles
 - **Verse Search** — Search by reference (e.g., "John 3:16", "Psalm 23:1-6")
 - **Bookmarks** — Save, manage, copy, and share your favorite verses
+- **Daily Bible Quiz** — 10 daily questions across 6 categories with scoring, streaks, and review
+- **Bible Stories for Kids** — 16 beautifully written kid-friendly summaries of the most important Bible stories with morals and key verses
 - **Daily Verse** — A curated verse each day, cached until midnight
 - **Dark / Light Mode** — Toggle themes with automatic preference persistence
 - **Copy & Share** — One-click copy to clipboard or share via Web Share API / Twitter / WhatsApp
@@ -36,7 +38,7 @@ cd bible_app
 Then open the app using any of these methods:
 
 | Method | Command |
-|--------|---------|
+| --- | --- |
 | Direct | Double-click `index.html` |
 | Python | `python -m http.server 8000` |
 | Node.js | `npx serve` |
@@ -73,10 +75,25 @@ Enter a reference in the search bar — e.g., `John 3:16`, `Romans 12`, or `Psal
 - View all bookmarks from the **Bookmarks** page.
 - Copy, share, or remove bookmarks. They persist in `localStorage`.
 
+### Daily Quiz
+
+1. Go to the **Quiz** page from the header.
+2. Answer 10 Bible questions (multiple choice) selected fresh each day.
+3. Get instant feedback, see your score, and review answers.
+4. Come back daily to keep your streak alive!
+
+### Bible Stories
+
+1. Navigate to **Stories** from the header.
+2. Browse 16 kid-friendly stories from the Old and New Testament.
+3. Filter by testament using the filter buttons.
+4. Click a card to read the full story with sections, a moral, and a key verse.
+5. Use Previous / Next buttons to navigate between stories.
+
 ### Keyboard Shortcuts
 
 | Key | Action |
-|-----|--------|
+| --- | --- |
 | `←` / `→` | Previous / next chapter |
 | `D` | Toggle dark mode |
 | `/` | Focus search bar |
@@ -84,7 +101,7 @@ Enter a reference in the search bar — e.g., `John 3:16`, `Romans 12`, or `Psal
 ## Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
+| --- | --- |
 | Markup | HTML5 (semantic) |
 | Styling | CSS3 with custom properties, responsive design, print styles |
 | Logic | Vanilla JavaScript (ES2020+) |
@@ -97,7 +114,7 @@ Enter a reference in the search bar — e.g., `John 3:16`, `Romans 12`, or `Psal
 The app uses the free **HelloAO Bible API** — a static JSON REST API with no authentication required.
 
 | Endpoint | Description |
-|----------|-------------|
+| --- | --- |
 | `/api/available_translations.json` | All available translations |
 | `/api/available_commentaries.json` | All available commentaries |
 | `/api/{translation}/books.json` | Books for a translation |
@@ -116,11 +133,11 @@ All user data (bookmarks, preferences) stays in your browser's `localStorage`. N
 
 ## Project Structure
 
-```
+```text
 bible_app/
-├── index.html      # Single-page app shell (4 views: Home, Bible, Bookmarks, About)
+├── index.html      # Single-page app shell (6 views: Home, Bible, Quiz, Stories, Bookmarks, About)
 ├── style.css       # Complete styling with theming, responsive, and print rules
-├── script.js       # Application logic, API integration, state management
+├── script.js       # Application logic, API integration, quiz engine, state management
 ├── favicon.svg     # SVG favicon (book with cross emblem)
 └── README.md
 ```
