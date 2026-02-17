@@ -1,319 +1,168 @@
 # The Word - Bible Study App
 
-A modern, production-ready, responsive Bible web application built with HTML, CSS, and JavaScript. Study scripture with ease using features like search, bookmarks, and dark mode.
+A modern, responsive Bible web application built with HTML, CSS, and vanilla JavaScript. Study scripture across hundreds of translations, explore classic commentaries, bookmark verses, and enjoy a beautiful reading experience — all without any build tools or dependencies.
 
-## 🌟 Features
+## Features
 
-- **📖 Complete Bible Access** - Read all 66 books of the Bible (Old and New Testament)
-- **🔍 Powerful Search** - Search verses by reference (e.g., "John 3:16") with instant results
-- **🔖 Bookmarks** - Save your favorite verses and access them anytime
-- **📱 Fully Responsive** - Optimized for mobile, tablet, and desktop devices
-- **🌓 Dark/Light Mode** - Toggle between themes for comfortable reading at any time
-- **📋 Copy to Clipboard** - Easily copy verses to share or save
-- **🔗 Social Sharing** - Share verses on Twitter, WhatsApp, and other platforms
-- **💾 Offline Storage** - Bookmarks and preferences persist using localStorage
-- **📅 Daily Verse** - Get a new inspiring verse every day
-- **♿ Accessible** - WCAG AA compliant with keyboard navigation and screen reader support
+- **Complete Bible Access** — Read all 66 books across hundreds of translations (BSB, KJV, WEB, and many more)
+- **Multiple Translations** — Switch between translations on the fly with a searchable version selector
+- **Classic Commentaries** — Read alongside Matthew Henry, John Gill, Adam Clarke, Jamieson-Fausset-Brown, Keil & Delitzsch, and Tyndale commentaries
+- **Rich Chapter Rendering** — Section headings, footnotes with tooltips, poetry indentation, and Hebrew subtitles
+- **Verse Search** — Search by reference (e.g., "John 3:16", "Psalm 23:1-6")
+- **Bookmarks** — Save, manage, copy, and share your favorite verses
+- **Daily Verse** — A curated verse each day, cached until midnight
+- **Dark / Light Mode** — Toggle themes with automatic preference persistence
+- **Copy & Share** — One-click copy to clipboard or share via Web Share API / Twitter / WhatsApp
+- **Keyboard Shortcuts** — Navigate chapters, toggle theme, open search, and more from the keyboard
+- **Fully Responsive** — Optimized layout for mobile, tablet, and desktop
+- **Accessible** — Semantic HTML, ARIA attributes, keyboard navigation, and screen reader support
+- **Print Styles** — Clean, ink-friendly formatting when printing chapters
+- **Zero Dependencies** — No frameworks, no build step — just open `index.html`
 
-## 🖼️ Screenshots
-
-### Home Page
-![Home Page - Light Mode](screenshots/home-light.png)
-*Clean, welcoming home page with daily verse widget*
-
-### Bible Reading Interface
-![Bible Page](screenshots/bible-reading.png)
-*Intuitive book and chapter selection with verse display*
-
-### Bookmarks Collection
-![Bookmarks](screenshots/bookmarks.png)
-*Manage and access your saved verses*
-
-### Dark Mode
-![Dark Mode](screenshots/dark-mode.png)
-*Comfortable reading experience in low light*
-
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
+
 - A modern web browser (Chrome, Firefox, Safari, or Edge)
-- Internet connection for fetching Bible content
+- An internet connection (Bible content is fetched from the HelloAO API)
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/batyaboyo/bible_app.git
-   cd bible_app
-   ```
+```bash
+git clone https://github.com/batyaboyo/bible_app.git
+cd bible_app
+```
 
-2. **Open the app**
-   - **Option 1**: Simply open `index.html` in your web browser
-   - **Option 2**: Use a local server for better experience
-     ```bash
-     # Using Python 3
-     python -m http.server 8000
-     
-     # Using Node.js
-     npx serve
-     
-     # Using PHP
-     php -S localhost:8000
-     ```
-   - **Option 3**: Use VS Code Live Server extension
+Then open the app using any of these methods:
 
-3. **Access the app**
-   - If using a local server, open `http://localhost:8000` in your browser
-   - If opening directly, double-click `index.html`
+| Method | Command |
+|--------|---------|
+| Direct | Double-click `index.html` |
+| Python | `python -m http.server 8000` |
+| Node.js | `npx serve` |
+| VS Code | Use the **Live Server** extension |
 
-That's it! No build process or dependencies required.
+No build process required.
 
-## 📖 How to Use
+## Usage
 
-### Reading the Bible
+### Reading
 
-1. Click **"Bible"** in the navigation menu
-2. Select a book from the sidebar (organized by Old and New Testament)
-3. Choose a chapter from the grid
-4. Read verses with smooth scrolling and formatting
-5. Use the bookmark (★) icon to save favorite verses
-6. Copy (📋) or share (🔗) any verse with one click
+1. Navigate to **Bible** from the header.
+2. Pick a book from the sidebar (Old / New Testament).
+3. Select a chapter from the grid.
+4. Read with section headings, footnotes, and poetry formatting.
 
-### Searching Verses
+### Switching Translations
 
-1. Use the search bar on the Bible page
-2. Enter a verse reference:
-   - Full reference: `John 3:16`
-   - Chapter range: `Psalm 23:1-6`
-   - Multiple chapters: `Romans 12`
-3. Click a search result to navigate directly to that verse
-4. The verse will be highlighted when you arrive
+Use the **version selector** dropdown in the toolbar. Translations are loaded dynamically from the API and filtered to English by default. Your choice is saved across sessions.
 
-### Managing Bookmarks
+### Commentaries
 
-1. Click the star icon (☆) on any verse to bookmark it
-2. Access all bookmarks from the **"Bookmarks"** page in the navigation
-3. View, copy, share, or remove bookmarks
-4. Bookmarks are automatically saved and persist across sessions
+1. Select a commentary from the **commentary dropdown** in the toolbar.
+2. A panel appears below the chapter text with the commentary for that chapter.
+3. Expand individual verse sections or the chapter introduction.
 
-### Dark Mode
+### Searching
 
-- Click the moon/sun icon (🌙/☀️) in the header to toggle themes
-- Your preference is automatically saved
-- Smooth transitions between light and dark modes
+Enter a reference in the search bar — e.g., `John 3:16`, `Romans 12`, or `Psalm 23:1-6`. Click a result to jump directly to the highlighted verse.
 
-### Daily Verse
+### Bookmarks
 
-- Visit the home page to see today's featured verse
-- A new verse appears each day from a curated selection
-- The daily verse is cached for the day (updates at midnight)
+- Click the **star icon** (☆) on any verse to bookmark it.
+- View all bookmarks from the **Bookmarks** page.
+- Copy, share, or remove bookmarks. They persist in `localStorage`.
 
-## 🔧 Technical Details
+### Keyboard Shortcuts
 
-### Built With
+| Key | Action |
+|-----|--------|
+| `←` / `→` | Previous / next chapter |
+| `D` | Toggle dark mode |
+| `/` | Focus search bar |
 
-- **HTML5** - Semantic markup for structure
-- **CSS3** - Modern styling with custom properties (CSS variables)
-- **Vanilla JavaScript** - No frameworks or libraries required
-- **Bible API** - [bible-api.com](https://bible-api.com) for scripture text (KJV)
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Markup | HTML5 (semantic) |
+| Styling | CSS3 with custom properties, responsive design, print styles |
+| Logic | Vanilla JavaScript (ES2020+) |
+| Fonts | [Inter](https://fonts.google.com/specimen/Inter) + [Merriweather](https://fonts.google.com/specimen/Merriweather) via Google Fonts |
+| API | [HelloAO Bible API](https://bible.helloao.org) |
+| Storage | `localStorage` for bookmarks, theme, translation, and daily verse cache |
+
+### API
+
+The app uses the free **HelloAO Bible API** — a static JSON REST API with no authentication required.
+
+| Endpoint | Description |
+|----------|-------------|
+| `/api/available_translations.json` | All available translations |
+| `/api/available_commentaries.json` | All available commentaries |
+| `/api/{translation}/books.json` | Books for a translation |
+| `/api/{translation}/{book}/{chapter}.json` | Chapter content (verses, headings, footnotes) |
+| `/api/c/{commentary}/{book}/{chapter}.json` | Commentary for a chapter |
+
+Base URL: `https://bible.helloao.org`
 
 ### Browser Support
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
+Chrome 90+ · Firefox 88+ · Safari 14+ · Edge 90+
 
-### API Information
+### Data & Privacy
 
-This app uses the free **Bible API** service:
-- Base URL: `https://bible-api.com/`
-- Translation: King James Version (KJV)
-- No authentication required
-- Rate limits: Reasonable personal use
+All user data (bookmarks, preferences) stays in your browser's `localStorage`. No analytics, no tracking, no external data collection — only API requests for Bible content.
 
-**Example API calls:**
+## Project Structure
+
 ```
-https://bible-api.com/John+3:16          # Single verse
-https://bible-api.com/Romans+12:1-2      # Verse range
-https://bible-api.com/Psalm+23           # Full chapter
+bible_app/
+├── index.html      # Single-page app shell (4 views: Home, Bible, Bookmarks, About)
+├── style.css       # Complete styling with theming, responsive, and print rules
+├── script.js       # Application logic, API integration, state management
+├── favicon.svg     # SVG favicon (book with cross emblem)
+└── README.md
 ```
 
-### Data Storage
+## Deployment
 
-All data is stored locally in your browser using `localStorage`:
-- **Bookmarks**: Verse reference, text, and timestamp
-- **Theme preference**: Dark/light mode setting
-- **Daily verse cache**: Current day's featured verse
+Works on any static hosting platform:
 
-No data is sent to external servers except API requests for Bible content.
+- **GitHub Pages** — Push to `main`, enable Pages in repo settings
+- **Netlify / Vercel** — Connect the repo or drag-and-drop the folder
+- **Any web server** — Upload the files via FTP or your hosting control panel
 
-## 🧪 Testing Features
+## Future Ideas
 
-### Search Functionality
-1. Navigate to the Bible page
-2. Enter `John 3:16` in the search bar
-3. Verify the verse appears in search results
-4. Click the result to navigate to the verse
-5. Confirm the verse is highlighted
-
-### Bookmarks
-1. Navigate to any Bible chapter
-2. Click the star icon on a verse
-3. Go to the Bookmarks page
-4. Verify the verse appears in your bookmarks
-5. Click "Remove" and confirm it's deleted
-6. Refresh the page and verify bookmarks persist
-
-### Dark Mode
-1. Click the theme toggle in the header
-2. Verify smooth transition to dark mode
-3. Refresh the page and verify preference persists
-4. Toggle back to light mode
-
-### Copy Feature
-1. Navigate to any verse
-2. Click the copy icon (📋)
-3. Verify toast notification appears
-4. Paste into a text editor to confirm content
-
-### Share Feature
-1. Click the share icon (🔗) on any verse
-2. If available, Web Share API dialog appears
-3. Otherwise, Twitter share opens in new tab
-
-### Responsive Design
-1. Resize browser window to mobile width (< 768px)
-2. Verify mobile menu toggle appears
-3. Check that all features work on mobile
-4. Test on actual mobile device
-
-### Keyboard Navigation
-1. Use Tab key to navigate through interactive elements
-2. Verify focus indicators are visible
-3. Use Enter/Space to activate buttons
-4. Confirm all features are keyboard accessible
-
-## 🌐 Deployment
-
-### GitHub Pages
-```bash
-# Push to main branch
-git push origin main
-
-# Enable GitHub Pages in repository settings
-# Select source: main branch, root directory
-```
-
-### Netlify
-```bash
-# Drag and drop the project folder to Netlify
-# Or connect your GitHub repository
-```
-
-### Vercel
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel
-```
-
-### Traditional Web Hosting
-Simply upload all files to your web server via FTP or hosting control panel.
-
-## 🔮 Future Enhancements
-
-- [ ] Multiple Bible translations (NIV, ESV, NASB, etc.)
-- [ ] Audio Bible with text highlighting
-- [ ] Study notes and commentary
+- [ ] Multi-language translation browsing
+- [ ] Audio Bible playback (API provides audio links)
+- [ ] Full-text search across chapters
 - [ ] Reading plans and schedules
-- [ ] Verse comparisons across translations
-- [ ] Highlighting and note-taking features
-- [ ] Social features (share study notes)
+- [ ] Verse comparison across translations
+- [ ] Highlighting and note-taking
 - [ ] Progressive Web App (PWA) for offline reading
-- [ ] Verse memorization tools
-- [ ] Advanced search with filters
-- [ ] Print-friendly formatting
-- [ ] Import/export bookmarks
+- [ ] Import / export bookmarks
 
-## 🤝 Contributing
-
-Contributions are welcome! Here's how you can help:
+## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
-### Development Guidelines
+Please follow existing code style, test across browsers, and maintain accessibility standards.
 
-- Follow existing code style and structure
-- Test on multiple browsers and devices
-- Ensure accessibility standards are maintained
-- Update documentation as needed
-- Keep file sizes minimal (no large dependencies)
+## License
 
-## 🐛 Known Issues
+MIT — see [LICENSE](LICENSE) for details.
 
-- Search currently only supports direct verse references
-- Large chapters (150 Psalms) may take a moment to load
-- API rate limits may apply for heavy usage
+## Acknowledgments
 
-## 📄 License
-
-This project is licensed under the MIT License - see below for details:
-
-```
-MIT License
-
-Copyright (c) 2024 Bible App
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-```
-
-## 🙏 Acknowledgments
-
-- **Bible API** ([bible-api.com](https://bible-api.com)) - For providing free access to scripture
-- **Google Fonts** - Inter and Merriweather typefaces
-- **King James Version** - The translation of the Holy Bible used in this application
-
-## 📞 Support
-
-If you encounter any issues or have questions:
-
-1. Check the [Known Issues](#-known-issues) section
-2. Review existing [GitHub Issues](https://github.com/batyaboyo/bible_app/issues)
-3. Create a new issue with detailed information about your problem
-
-## 🌟 Show Your Support
-
-If you find this project helpful, please consider:
-- ⭐ Starring the repository
-- 🍴 Forking for your own use
-- 📢 Sharing with others who might benefit
-- 🤝 Contributing improvements
+- **[HelloAO Bible API](https://bible.helloao.org)** — Scripture text and commentaries
+- **[Google Fonts](https://fonts.google.com)** — Inter and Merriweather typefaces
 
 ---
 
-**Made with ❤️ for Bible study and spiritual growth**
-
-*"Thy word is a lamp unto my feet, and a light unto my path." - Psalm 119:105*
+*"Thy word is a lamp unto my feet, and a light unto my path." — Psalm 119:105*
