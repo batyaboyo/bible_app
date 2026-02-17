@@ -1870,6 +1870,295 @@ a:hover, a:focus {
 }
 
 /* ========================================
+   Prayer Page
+   ======================================== */
+.prayer-subtitle {
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 1.05rem;
+    margin-bottom: var(--spacing-xl);
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.prayer-time-toggle {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+}
+
+.prayer-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: var(--color-bg-secondary);
+    color: var(--color-text-secondary);
+    font-family: var(--font-primary);
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+}
+
+.prayer-toggle-btn:hover {
+    border-color: var(--color-primary);
+    color: var(--color-primary);
+}
+
+.prayer-toggle-btn.active {
+    background: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #fff;
+}
+
+.prayer-toggle-icon {
+    font-size: 1.2rem;
+}
+
+.prayer-card {
+    max-width: 680px;
+    margin: 0 auto var(--spacing-xl);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+.prayer-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-primary-dark));
+    color: #fff;
+}
+
+.prayer-time-label {
+    font-weight: 600;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.prayer-date {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+.prayer-body {
+    padding: var(--spacing-xl);
+}
+
+.prayer-title {
+    font-family: var(--font-reading);
+    font-size: 1.5rem;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    text-align: center;
+}
+
+.prayer-verse {
+    font-family: var(--font-reading);
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    border-left: 3px solid var(--color-primary);
+    padding: var(--spacing-md) var(--spacing-lg);
+    margin: 0 0 var(--spacing-sm);
+    background: var(--color-bg-tertiary);
+    border-radius: 0 var(--radius-md) var(--radius-md) 0;
+}
+
+.prayer-verse-ref {
+    display: block;
+    text-align: right;
+    font-size: 0.85rem;
+    color: var(--color-primary);
+    font-weight: 600;
+    font-style: normal;
+    margin-bottom: var(--spacing-lg);
+}
+
+.prayer-text {
+    font-family: var(--font-reading);
+    font-size: 1.05rem;
+    line-height: 1.9;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    white-space: pre-line;
+}
+
+.prayer-closing {
+    font-family: var(--font-reading);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--color-text);
+    text-align: center;
+    font-weight: 600;
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+}
+
+.prayer-timer-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-xl);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg-tertiary);
+}
+
+.prayer-timer-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-md);
+}
+
+.prayer-timer-ring {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-bottom: var(--spacing-md);
+}
+
+.prayer-timer-svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+}
+
+.prayer-timer-track {
+    fill: none;
+    stroke: var(--color-border);
+    stroke-width: 6;
+}
+
+.prayer-timer-progress {
+    fill: none;
+    stroke: var(--color-primary);
+    stroke-width: 6;
+    stroke-linecap: round;
+    stroke-dasharray: 339.292;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 1s linear;
+}
+
+.prayer-timer-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+.prayer-timer-btn {
+    min-width: 140px;
+    margin-bottom: var(--spacing-sm);
+}
+
+.prayer-timer-btn.running {
+    background: var(--color-error);
+    border-color: var(--color-error);
+}
+
+.prayer-timer-btn.finished {
+    background: var(--color-success);
+    border-color: var(--color-success);
+}
+
+.prayer-timer-hint {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.prayer-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md) var(--spacing-xl) var(--spacing-xl);
+    flex-wrap: wrap;
+}
+
+.prayer-streak {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-md);
+    max-width: 680px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+}
+
+.prayer-streak-icon {
+    font-size: 2rem;
+}
+
+.prayer-streak-info {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+}
+
+.prayer-streak-count {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-primary);
+}
+
+.prayer-streak-label {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .prayer-time-toggle {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .prayer-toggle-btn {
+        width: 100%;
+        max-width: 280px;
+        justify-content: center;
+    }
+
+    .prayer-body {
+        padding: var(--spacing-lg);
+    }
+
+    .prayer-title {
+        font-size: 1.25rem;
+    }
+
+    .prayer-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .prayer-actions .btn {
+        width: 100%;
+        max-width: 280px;
+    }
+}
+
+/* ========================================
    Print Styles
    ======================================== */
 @media print {

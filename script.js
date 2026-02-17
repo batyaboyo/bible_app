@@ -396,6 +396,11 @@ function navigateTo(page) {
     if (page === 'stories') {
         initializeStories();
     }
+
+    // Initialize prayer when navigating to it
+    if (page === 'prayer') {
+        initializePrayer();
+    }
 }
 
 // ========================================
@@ -2443,6 +2448,381 @@ function openStoryDetail(storyId) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
+
+
+// ========================================
+// Prayer Page
+// ========================================
+
+const MORNING_PRAYERS = [
+    {
+        title: 'A Prayer for a New Day',
+        verse: 'This is the day the LORD has made; let us rejoice and be glad in it.',
+        verseRef: 'Psalm 118:24',
+        text: 'Heavenly Father, thank You for the gift of this new day. As the sun rises, let Your light fill my heart with hope and purpose. Guide my steps, guard my words, and help me to be a blessing to everyone I meet today.\n\nGive me strength for every challenge, patience in every trial, and joy that comes from knowing You are always with me. May everything I do today bring glory to Your name.',
+        closing: 'In Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Strength',
+        verse: 'I can do all things through Christ who strengthens me.',
+        verseRef: 'Philippians 4:13',
+        text: 'Lord God, I come before You this morning asking for strength. Not the strength of the world — but Your strength, which is made perfect in my weakness.\n\nHelp me face this day with courage and faith. When I feel overwhelmed, remind me that You are bigger than any problem. When I feel alone, remind me that You are always near. Fill me with Your Holy Spirit so I can live this day fully for You.',
+        closing: 'In the mighty name of Jesus, Amen.'
+    },
+    {
+        title: 'A Prayer for Guidance',
+        verse: 'Trust in the LORD with all your heart and lean not on your own understanding; in all your ways submit to Him, and He will make your paths straight.',
+        verseRef: 'Proverbs 3:5-6',
+        text: 'Dear Lord, I don\'t always know which way to go or what decisions to make. But I trust that You do. This morning I surrender my plans to You and ask for Your guidance.\n\nOpen the doors You want me to walk through, and close the ones that would lead me astray. Give me ears to hear Your voice and a willing heart to follow wherever You lead. I choose to trust You today, even when I can\'t see the full picture.',
+        closing: 'In Your holy name I pray, Amen.'
+    },
+    {
+        title: 'A Prayer of Gratitude',
+        verse: 'Give thanks to the LORD, for He is good; His love endures forever.',
+        verseRef: 'Psalm 107:1',
+        text: 'Father, before I ask for anything, I want to thank You. Thank You for breath in my lungs, for a mind that can think, for a heart that can love. Thank You for the people in my life, for the roof over my head, and for the grace that covers me each day.\n\nHelp me to live this day with a grateful heart. Let me notice the small blessings I so often overlook. Transform my complaints into praise and my worries into worship.',
+        closing: 'With a grateful heart, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Peace',
+        verse: 'Peace I leave with you; my peace I give you. I do not give to you as the world gives. Do not let your hearts be troubled and do not be afraid.',
+        verseRef: 'John 14:27',
+        text: 'Prince of Peace, I bring You all my anxieties this morning. The worries that kept me awake, the fears about the future, the stress of all that lies ahead — I lay them all at Your feet.\n\nFill me with Your supernatural peace that surpasses all understanding. Guard my mind against worry and my heart against fear. Help me to breathe deeply and remember that You are in control of all things.',
+        closing: 'I receive Your peace today, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Wisdom',
+        verse: 'If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you.',
+        verseRef: 'James 1:5',
+        text: 'All-knowing God, I need Your wisdom today. The world is full of noise and opinions, but I want to hear Your voice above all others.\n\nGive me discernment to know what is true and what is false. Help me to make wise choices in my words, my actions, and my relationships. Let me see people and situations through Your eyes, and respond with the wisdom that comes only from above.',
+        closing: 'In the name of Jesus, who is our wisdom, Amen.'
+    },
+    {
+        title: 'A Prayer for Courage',
+        verse: 'Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go.',
+        verseRef: 'Joshua 1:9',
+        text: 'Mighty God, I confess that sometimes I feel afraid. Afraid of failure, afraid of rejection, afraid of the unknown. But Your Word tells me to be strong and courageous — not because of my own power, but because You are with me.\n\nHelp me to step out in faith today. Give me the courage to do the right thing even when it\'s hard, to speak truth even when it\'s unpopular, and to love boldly even when it feels risky.',
+        closing: 'I go forward in Your strength, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Others',
+        verse: 'Dear friends, let us love one another, for love comes from God. Everyone who loves has been born of God and knows God.',
+        verseRef: '1 John 4:7',
+        text: 'Loving Father, today I lift up the people around me. Bless my family, my friends, my neighbors, and even those I find difficult to love.\n\nFor those who are hurting, bring comfort. For those who are lost, bring direction. For those who are lonely, bring companionship. Use me as Your instrument of love today. Open my eyes to see the needs of others and give me a willing heart to serve.',
+        closing: 'May Your love flow through me today, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Faithfulness',
+        verse: 'His mercies are new every morning; great is Your faithfulness.',
+        verseRef: 'Lamentations 3:23',
+        text: 'Faithful God, Your mercies are new this morning, and I am grateful. Even when I have been unfaithful, You remain faithful. Even when I have stumbled, You have caught me.\n\nHelp me to be faithful in the small things today — faithful in my words, faithful in my work, faithful in my relationships. Let me live this day in a way that reflects Your faithfulness to me.',
+        closing: 'I trust in Your faithfulness, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Purpose',
+        verse: 'For we are God\'s handiwork, created in Christ Jesus to do good works, which God prepared in advance for us to do.',
+        verseRef: 'Ephesians 2:10',
+        text: 'Creator God, You made me on purpose and for a purpose. I am not an accident — I am Your handiwork, Your masterpiece. Help me to walk in the good works You have prepared for me.\n\nWhen I feel insignificant, remind me that my life matters to You. When I feel directionless, show me the path You have laid out. Let this day be filled with meaningful moments and divine appointments.',
+        closing: 'I walk in Your purpose today, in Jesus\' name, Amen.'
+    }
+];
+
+const EVENING_PRAYERS = [
+    {
+        title: 'A Prayer of Rest',
+        verse: 'Come to me, all you who are weary and burdened, and I will give you rest.',
+        verseRef: 'Matthew 11:28',
+        text: 'Dear Lord, the day is done and I come to You tired but grateful. Thank You for carrying me through every moment — the good and the difficult.\n\nAs I lay down tonight, quiet my racing thoughts and calm my restless heart. Replace my weariness with Your rest, my worries with Your peace. Watch over me and my loved ones through the night.',
+        closing: 'I rest in You tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Reflection',
+        verse: 'Search me, God, and know my heart; test me and know my anxious thoughts.',
+        verseRef: 'Psalm 139:23',
+        text: 'Heavenly Father, as this day ends, I invite You to search my heart. Show me where I fell short today — where I chose selfishness over love, impatience over grace, fear over faith.\n\nI confess my sins and shortcomings, knowing that You are faithful and just to forgive me. Thank You for Your mercy that never runs out. Help me to learn from today so I can love better tomorrow.',
+        closing: 'I rest in Your forgiveness, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Protection',
+        verse: 'He who watches over Israel will neither slumber nor sleep.',
+        verseRef: 'Psalm 121:4',
+        text: 'Almighty God, as darkness falls, I trust in Your protection. You are the God who never sleeps, the guardian who never takes a break.\n\nPost Your angels around my home tonight. Protect my family from harm, my mind from anxiety, and my dreams from darkness. Let me sleep under the shadow of Your wings, safe and secure in Your unfailing love.',
+        closing: 'Under Your wings I find refuge, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Surrender',
+        verse: 'Into your hands I commit my spirit; deliver me, LORD, my faithful God.',
+        verseRef: 'Psalm 31:5',
+        text: 'Lord Jesus, these were the words You spoke from the cross, and they are my prayer tonight. I surrender everything — my successes and my failures, my hopes and my fears, my plans and my uncertainties.\n\nI cannot control tomorrow. I cannot fix everything. But I can trust You completely. So tonight, I release my grip on everything I\'ve been holding too tightly, and I place it all in Your capable hands.',
+        closing: 'Into Your hands I commit my spirit, Amen.'
+    },
+    {
+        title: 'A Prayer for Loved Ones',
+        verse: 'The LORD bless you and keep you; the LORD make His face shine on you and be gracious to you.',
+        verseRef: 'Numbers 6:24-25',
+        text: 'Caring Father, as the world grows quiet tonight, I lift up each person I love. You know them by name, and You love them even more than I do.\n\nBless them with peaceful sleep. Heal those who are sick. Comfort those who are grieving. Strengthen those who are struggling. Draw near to those who feel far from You. Surround each one with Your love and protection through the night.',
+        closing: 'I entrust them to Your care, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Thanksgiving',
+        verse: 'Every good and perfect gift is from above, coming down from the Father of the heavenly lights.',
+        verseRef: 'James 1:17',
+        text: 'Generous God, before I close my eyes, I want to count my blessings. Every good thing in my life comes from You — every kindness received, every moment of laughter, every provision met.\n\nThank You for today\'s mercies, both seen and unseen. Thank You for answers to prayers I didn\'t even know to pray. Let gratitude be the last thing on my heart as I drift off to sleep.',
+        closing: 'With a thankful heart, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Tomorrow',
+        verse: 'Do not worry about tomorrow, for tomorrow will worry about itself. Each day has enough trouble of its own.',
+        verseRef: 'Matthew 6:34',
+        text: 'Lord, I confess that my mind often races ahead to tomorrow — to the tasks waiting, the problems unsolved, the unknowns that make me anxious.\n\nBut You tell me not to worry about tomorrow. So tonight, I choose to leave tomorrow in Your hands. You have been faithful every single day of my life, and I trust You will be faithful again when the sun rises. Help me to simply rest now.',
+        closing: 'Tomorrow belongs to You, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Healing',
+        verse: 'He heals the brokenhearted and binds up their wounds.',
+        verseRef: 'Psalm 147:3',
+        text: 'Great Physician, I bring You the wounds of this day — the harsh words that stung, the disappointments that ached, the exhaustion that settled deep in my bones.\n\nYou are the healer of broken hearts and tired bodies. Touch every place that hurts tonight. Restore what has been drained. Let Your healing power work in me as I sleep, so I can wake renewed and whole.',
+        closing: 'I receive Your healing touch, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for God\'s Presence',
+        verse: 'Where can I go from your Spirit? Where can I flee from your presence?',
+        verseRef: 'Psalm 139:7',
+        text: 'Ever-present God, sometimes the night feels long and lonely. But Your Word reminds me that there is nowhere I can go where You are not already there.\n\nYou are with me in the light and in the darkness. You are with me in joy and in sorrow. You are with me when I feel strong and when I feel broken. Tonight, let me feel Your presence close — not just know it in my head, but feel it in my heart.',
+        closing: 'You are here, and that is enough. In Jesus\' name, Amen.'
+    },
+    {
+        title: 'The Lord\'s Prayer',
+        verse: 'This, then, is how you should pray...',
+        verseRef: 'Matthew 6:9',
+        text: 'Our Father in heaven, hallowed be Your name. Your kingdom come, Your will be done, on earth as it is in heaven.\n\nGive us today our daily bread. And forgive us our debts, as we also have forgiven our debtors. And lead us not into temptation, but deliver us from the evil one.\n\nFor Yours is the kingdom and the power and the glory forever.',
+        closing: 'Amen.'
+    }
+];
+
+let prayerTimerInterval = null;
+let prayerTimerSeconds = 60;
+let prayerTimerRunning = false;
+let currentPrayerTime = 'morning';
+
+function initializePrayer() {
+    const today = new Date().toDateString();
+    const hour = new Date().getHours();
+
+    // Auto-select morning (before 5pm) or evening
+    currentPrayerTime = hour < 17 ? 'morning' : 'evening';
+
+    updatePrayerToggle();
+    renderPrayer();
+    initializePrayerControls();
+    updatePrayerStreak();
+}
+
+function updatePrayerToggle() {
+    document.querySelectorAll('.prayer-toggle-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.time === currentPrayerTime);
+    });
+}
+
+function getPrayerForToday(time) {
+    const dayOfYear = getDayOfYear();
+    const prayers = time === 'morning' ? MORNING_PRAYERS : EVENING_PRAYERS;
+    return prayers[dayOfYear % prayers.length];
+}
+
+function getDayOfYear() {
+    const now = new Date();
+    const start = new Date(now.getFullYear(), 0, 0);
+    const diff = now - start;
+    return Math.floor(diff / (1000 * 60 * 60 * 24));
+}
+
+function renderPrayer(specificPrayer) {
+    const prayer = specificPrayer || getPrayerForToday(currentPrayerTime);
+
+    const label = currentPrayerTime === 'morning' ? '🌅 Morning Prayer' : '🌙 Evening Prayer';
+    const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+    document.getElementById('prayer-time-label').textContent = label;
+    document.getElementById('prayer-date').textContent = today;
+    document.getElementById('prayer-title').textContent = prayer.title;
+    document.getElementById('prayer-verse').textContent = `"${prayer.verse}"`;
+    document.getElementById('prayer-verse-ref').textContent = `— ${prayer.verseRef}`;
+    document.getElementById('prayer-text').textContent = prayer.text;
+    document.getElementById('prayer-closing').textContent = prayer.closing;
+
+    // Reset timer
+    resetPrayerTimer();
+}
+
+function initializePrayerControls() {
+    // Time toggle
+    document.querySelectorAll('.prayer-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            currentPrayerTime = btn.dataset.time;
+            updatePrayerToggle();
+            renderPrayer();
+        });
+    });
+
+    // Timer
+    const timerBtn = document.getElementById('prayer-timer-btn');
+    timerBtn.addEventListener('click', togglePrayerTimer);
+
+    // Copy
+    document.getElementById('prayer-copy-btn').addEventListener('click', copyPrayer);
+
+    // Share
+    document.getElementById('prayer-share-btn').addEventListener('click', sharePrayer);
+
+    // Another prayer
+    document.getElementById('prayer-new-btn').addEventListener('click', () => {
+        const prayers = currentPrayerTime === 'morning' ? MORNING_PRAYERS : EVENING_PRAYERS;
+        const randomIndex = Math.floor(Math.random() * prayers.length);
+        renderPrayer(prayers[randomIndex]);
+    });
+}
+
+function togglePrayerTimer() {
+    const btn = document.getElementById('prayer-timer-btn');
+
+    if (prayerTimerRunning) {
+        // Stop
+        clearInterval(prayerTimerInterval);
+        prayerTimerRunning = false;
+        btn.textContent = 'Resume';
+        btn.classList.remove('running');
+        return;
+    }
+
+    if (prayerTimerSeconds <= 0) {
+        resetPrayerTimer();
+        return;
+    }
+
+    // Start / Resume
+    prayerTimerRunning = true;
+    btn.textContent = 'Pause';
+    btn.classList.add('running');
+    btn.classList.remove('finished');
+
+    prayerTimerInterval = setInterval(() => {
+        prayerTimerSeconds--;
+        updateTimerDisplay();
+
+        if (prayerTimerSeconds <= 0) {
+            clearInterval(prayerTimerInterval);
+            prayerTimerRunning = false;
+            btn.textContent = 'Restart';
+            btn.classList.remove('running');
+            btn.classList.add('finished');
+            completePrayer();
+        }
+    }, 1000);
+}
+
+function resetPrayerTimer() {
+    clearInterval(prayerTimerInterval);
+    prayerTimerRunning = false;
+    prayerTimerSeconds = 60;
+    updateTimerDisplay();
+
+    const btn = document.getElementById('prayer-timer-btn');
+    btn.textContent = 'Start Timer';
+    btn.classList.remove('running', 'finished');
+}
+
+function updateTimerDisplay() {
+    const mins = Math.floor(prayerTimerSeconds / 60);
+    const secs = prayerTimerSeconds % 60;
+    document.getElementById('prayer-timer-text').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+
+    // Update circular progress
+    const circumference = 2 * Math.PI * 54; // r=54
+    const progress = prayerTimerSeconds / 60;
+    const offset = circumference * (1 - progress);
+    document.getElementById('prayer-timer-progress').style.strokeDashoffset = offset;
+}
+
+function completePrayer() {
+    // Record that user prayed today
+    const today = new Date().toDateString();
+    const prayerLog = JSON.parse(localStorage.getItem('prayerLog') || '{}');
+
+    if (!prayerLog[today]) {
+        prayerLog[today] = {};
+    }
+    prayerLog[today][currentPrayerTime] = true;
+    localStorage.setItem('prayerLog', JSON.stringify(prayerLog));
+
+    updatePrayerStreak();
+    showToast('Prayer time complete! God bless you. 🙏');
+}
+
+function updatePrayerStreak() {
+    const prayerLog = JSON.parse(localStorage.getItem('prayerLog') || '{}');
+    let streak = 0;
+    const now = new Date();
+
+    for (let i = 0; i < 365; i++) {
+        const date = new Date(now);
+        date.setDate(date.getDate() - i);
+        const dateStr = date.toDateString();
+
+        if (prayerLog[dateStr]) {
+            streak++;
+        } else {
+            if (i > 0) break; // Allow today to not yet be logged
+        }
+    }
+
+    const streakEl = document.getElementById('prayer-streak');
+    const countEl = document.getElementById('prayer-streak-count');
+
+    if (streak > 0) {
+        streakEl.hidden = false;
+        countEl.textContent = streak;
+    } else {
+        streakEl.hidden = true;
+    }
+}
+
+function copyPrayer() {
+    const title = document.getElementById('prayer-title').textContent;
+    const verse = document.getElementById('prayer-verse').textContent;
+    const ref = document.getElementById('prayer-verse-ref').textContent;
+    const text = document.getElementById('prayer-text').textContent;
+    const closing = document.getElementById('prayer-closing').textContent;
+
+    const fullPrayer = `${title}\n\n${verse}\n${ref}\n\n${text}\n\n${closing}`;
+
+    navigator.clipboard.writeText(fullPrayer).then(() => {
+        showToast('Prayer copied to clipboard! 📋');
+    }).catch(() => {
+        showToast('Failed to copy prayer.');
+    });
+}
+
+function sharePrayer() {
+    const title = document.getElementById('prayer-title').textContent;
+    const verse = document.getElementById('prayer-verse').textContent;
+    const ref = document.getElementById('prayer-verse-ref').textContent;
+
+    const shareText = `${title}\n\n${verse}\n${ref}\n\n— The Word Bible App`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: title,
+            text: shareText
+        }).catch(() => {});
+    } else {
+        navigator.clipboard.writeText(shareText).then(() => {
+            showToast('Prayer copied to clipboard for sharing! 🔗');
+        }).catch(() => {
+            showToast('Failed to share prayer.');
+        });
+    }
+}
 
 
 function initializeKeyboardShortcuts() {

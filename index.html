@@ -34,6 +34,7 @@
                         <li><a href="#" class="nav-link" data-page="bible">Bible</a></li>
                         <li><a href="#" class="nav-link" data-page="bookmarks">Bookmarks</a></li>
                         <li><a href="#" class="nav-link" data-page="stories">Stories</a></li>
+                        <li><a href="#" class="nav-link" data-page="prayer">Prayer</a></li>
                         <li><a href="#" class="nav-link" data-page="quiz">Quiz</a></li>
                         <li><a href="#" class="nav-link" data-page="about">About</a></li>
                     </ul>
@@ -309,6 +310,69 @@
                         </button>
                     </div>
                     <div class="bookmarks-list" id="bookmarks-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Prayer Page -->
+        <section id="prayer" class="page">
+            <div class="container">
+                <h2 class="page-title">Daily Prayer</h2>
+                <p class="prayer-subtitle">Take one minute each morning and evening to connect with God through prayer.</p>
+
+                <div class="prayer-time-toggle">
+                    <button class="prayer-toggle-btn active" id="prayer-morning-btn" data-time="morning">
+                        <span class="prayer-toggle-icon">🌅</span>
+                        Morning Prayer
+                    </button>
+                    <button class="prayer-toggle-btn" id="prayer-evening-btn" data-time="evening">
+                        <span class="prayer-toggle-icon">🌙</span>
+                        Evening Prayer
+                    </button>
+                </div>
+
+                <div class="prayer-card" id="prayer-card">
+                    <div class="prayer-card-header">
+                        <span class="prayer-time-label" id="prayer-time-label">Morning Prayer</span>
+                        <span class="prayer-date" id="prayer-date"></span>
+                    </div>
+
+                    <div class="prayer-body">
+                        <h3 class="prayer-title" id="prayer-title"></h3>
+                        <blockquote class="prayer-verse" id="prayer-verse"></blockquote>
+                        <cite class="prayer-verse-ref" id="prayer-verse-ref"></cite>
+
+                        <div class="prayer-text" id="prayer-text"></div>
+
+                        <div class="prayer-closing" id="prayer-closing"></div>
+                    </div>
+
+                    <div class="prayer-timer-section">
+                        <p class="prayer-timer-label">1-Minute Prayer Timer</p>
+                        <div class="prayer-timer-ring" id="prayer-timer-ring">
+                            <svg viewBox="0 0 120 120" class="prayer-timer-svg">
+                                <circle cx="60" cy="60" r="54" class="prayer-timer-track"></circle>
+                                <circle cx="60" cy="60" r="54" class="prayer-timer-progress" id="prayer-timer-progress"></circle>
+                            </svg>
+                            <span class="prayer-timer-text" id="prayer-timer-text">1:00</span>
+                        </div>
+                        <button class="btn btn-primary prayer-timer-btn" id="prayer-timer-btn">Start Timer</button>
+                        <p class="prayer-timer-hint">Close your eyes, quiet your heart, and pray.</p>
+                    </div>
+
+                    <div class="prayer-actions">
+                        <button class="btn btn-secondary" id="prayer-copy-btn" title="Copy prayer to clipboard">📋 Copy Prayer</button>
+                        <button class="btn btn-secondary" id="prayer-share-btn" title="Share this prayer">🔗 Share</button>
+                        <button class="btn btn-secondary" id="prayer-new-btn" title="Get another prayer">🔄 Another Prayer</button>
+                    </div>
+                </div>
+
+                <div class="prayer-streak" id="prayer-streak" hidden>
+                    <div class="prayer-streak-icon">🔥</div>
+                    <div class="prayer-streak-info">
+                        <span class="prayer-streak-count" id="prayer-streak-count">0</span>
+                        <span class="prayer-streak-label">day streak</span>
+                    </div>
                 </div>
             </div>
         </section>
