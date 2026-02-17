@@ -6,11 +6,25 @@ const APP_STATE = {
     currentPage: 'home',
     currentBook: null,
     currentChapter: null,
+    currentVersion: 'kjv',
     bookmarks: [],
     darkMode: false,
     dailyVerse: null,
     searchTimeout: null
 };
+
+// Bible version/translation options
+const BIBLE_VERSIONS = [
+    { id: 'kjv', name: 'King James Version', abbr: 'KJV' },
+    { id: 'web', name: 'World English Bible', abbr: 'WEB' },
+    { id: 'webbe', name: 'World English Bible (British)', abbr: 'WEBBE' },
+    { id: 'bbe', name: 'Bible in Basic English', abbr: 'BBE' },
+    { id: 'oeb-us', name: 'Open English Bible (US)', abbr: 'OEB-US' },
+    { id: 'oeb-cw', name: 'Open English Bible (CW)', abbr: 'OEB-CW' },
+    { id: 'clementine', name: 'Clementine Latin Vulgate', abbr: 'CLEM' },
+    { id: 'almeida', name: 'João Ferreira de Almeida', abbr: 'JFA' },
+    { id: 'rpierce', name: 'Romanian Cornilescu', abbr: 'RCORN' }
+];
 
 // Bible books data
 const BIBLE_BOOKS = {
@@ -123,6 +137,7 @@ function initializeApp() {
     initializeMobileMenu();
     initializeBibleBooks();
     initializeSearch();
+    initializeVersionSelector();
     
     // Load content
     loadDailyVerse();
@@ -148,11 +163,17 @@ function loadState() {
             APP_STATE.darkMode = savedTheme === 'true';
         }
         
+        const savedVersion = localStorage.getItem('bibleVersion');
+        if (savedVersion && BIBLE_VERSIONS.some(v => v.id === savedVersion)) {
+            APP_STATE.currentVersion = savedVersion;
+        }
+        
         const savedDailyVerse = localStorage.getItem('dailyVerse');
         const savedDate = localStorage.getItem('dailyVerseDate');
+        const savedVerseVersion = localStorage.getItem('dailyVerseVersion');
         const today = new Date().toDateString();
         
-        if (savedDailyVerse && savedDate === today) {
+        if (savedDailyVerse && savedDate === today && savedVerseVersion === APP_STATE.currentVersion) {
             APP_STATE.dailyVerse = JSON.parse(savedDailyVerse);
         }
     } catch (error) {
@@ -182,8 +203,17 @@ function saveDailyVerse(verse) {
         const today = new Date().toDateString();
         localStorage.setItem('dailyVerse', JSON.stringify(verse));
         localStorage.setItem('dailyVerseDate', today);
+        localStorage.setItem('dailyVerseVersion', APP_STATE.currentVersion);
     } catch (error) {
         console.error('Error saving daily verse:', error);
+    }
+}
+
+function saveVersion() {
+    try {
+        localStorage.setItem('bibleVersion', APP_STATE.currentVersion);
+    } catch (error) {
+        console.error('Error saving version:', error);
     }
 }
 
@@ -515,7 +545,7 @@ function renderVerses(verses, bookName, chapter) {
 
 async function fetchBibleVerse(reference) {
     try {
-        const url = `https://bible-api.com/${encodeURIComponent(reference)}`;
+        const url = `https://bible-api.com/${encodeURIComponent(reference)}?translation=${APP_STATE.currentVersion}`;
         const response = await fetch(url);
         
         if (!response.ok) {
@@ -527,6 +557,64 @@ async function fetchBibleVerse(reference) {
     } catch (error) {
         console.error('Error fetching Bible verse:', error);
         throw error;
+    }
+}
+
+// ========================================
+// Version Selector
+// ========================================
+
+function initializeVersionSelector() {
+    const selector = document.getElementById('version-selector');
+    if (!selector) return;
+    
+    // Populate options
+    selector.innerHTML = '';
+    BIBLE_VERSIONS.forEach(version => {
+        const option = document.createElement('option');
+        option.value = version.id;
+        option.textContent = `${version.abbr} - ${version.name}`;
+        if (version.id === APP_STATE.currentVersion) {
+            option.selected = true;
+        }
+        selector.appendChild(option);
+    });
+    
+    // Handle change
+    selector.addEventListener('change', (e) => {
+        const newVersion = e.target.value;
+        changeVersion(newVersion);
+    });
+    
+    // Also set the header version badge
+    updateVersionBadge();
+}
+
+function changeVersion(versionId) {
+    const version = BIBLE_VERSIONS.find(v => v.id === versionId);
+    if (!version) return;
+    
+    APP_STATE.currentVersion = versionId;
+    saveVersion();
+    updateVersionBadge();
+    
+    // Clear cached daily verse so it reloads in the new version
+    APP_STATE.dailyVerse = null;
+    loadDailyVerse();
+    
+    // Reload current chapter if one is being displayed
+    if (APP_STATE.currentBook && APP_STATE.currentChapter) {
+        loadChapter(APP_STATE.currentBook, APP_STATE.currentChapter);
+    }
+    
+    showToast(`Switched to ${version.abbr}`, 'success');
+}
+
+function updateVersionBadge() {
+    const badge = document.getElementById('current-version-badge');
+    if (badge) {
+        const version = BIBLE_VERSIONS.find(v => v.id === APP_STATE.currentVersion);
+        badge.textContent = version ? version.abbr : 'KJV';
     }
 }
 

@@ -33,6 +33,7 @@
                         <li><a href="#" class="nav-link" data-page="about">About</a></li>
                     </ul>
                 </nav>
+                <span class="version-badge" id="current-version-badge" title="Current Bible version">KJV</span>
                 <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
                     <span class="theme-icon">🌙</span>
                 </button>
@@ -93,6 +94,11 @@
                         <p class="feature-description">Save your favorite verses and access them anytime.</p>
                     </div>
                     <div class="feature-card">
+                        <div class="feature-icon">📜</div>
+                        <h3 class="feature-title">Multiple Versions</h3>
+                        <p class="feature-description">Read in KJV, WEB, BBE, OEB, and more Bible translations.</p>
+                    </div>
+                    <div class="feature-card">
                         <div class="feature-icon">🌓</div>
                         <h3 class="feature-title">Dark Mode</h3>
                         <p class="feature-description">Switch between light and dark themes for comfortable reading.</p>
@@ -106,14 +112,22 @@
             <div class="container">
                 <div class="bible-header">
                     <h2 class="page-title">Read the Bible</h2>
-                    <div class="search-container">
-                        <input 
-                            type="search" 
-                            class="search-input" 
-                            placeholder="Search verses or enter reference (e.g., John 3:16)..."
-                            aria-label="Search Bible verses"
-                        >
-                        <div class="search-results" style="display: none;"></div>
+                    <div class="bible-toolbar">
+                        <div class="version-selector-container">
+                            <label for="version-selector" class="version-label">Version:</label>
+                            <select id="version-selector" class="version-selector" aria-label="Select Bible version">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
+                        <div class="search-container">
+                            <input 
+                                type="search" 
+                                class="search-input" 
+                                placeholder="Search verses or enter reference (e.g., John 3:16)..."
+                                aria-label="Search Bible verses"
+                            >
+                            <div class="search-results" style="display: none;"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -208,7 +222,7 @@
 
                     <article class="about-section">
                         <h3>Data Source</h3>
-                        <p>All Bible text is provided by the <a href="https://bible-api.com" target="_blank" rel="noopener noreferrer">Bible API</a>, a free and open-source API that serves the King James Version (KJV) of the Bible. We are grateful for their service in making scripture freely accessible.</p>
+                        <p>All Bible text is provided by the <a href="https://bible-api.com" target="_blank" rel="noopener noreferrer">Bible API</a>, a free and open-source API that serves multiple Bible translations including KJV, WEB, BBE, OEB, and more. We are grateful for their service in making scripture freely accessible.</p>
                     </article>
 
                     <article class="about-section">
