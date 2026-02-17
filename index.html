@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A production-ready, responsive Bible web application for reading, searching, and bookmarking verses.">
+    <meta name="keywords" content="Bible, Scripture, Holy Bible, Bible Study, Online Bible">
+    <meta name="author" content="Bible App">
+    <title>The Word - Bible Study App</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <h1 class="logo">
+                    <span class="logo-icon">📖</span>
+                    The Word
+                </h1>
+                <nav class="nav" role="navigation" aria-label="Main navigation">
+                    <ul class="nav-list">
+                        <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                        <li><a href="#" class="nav-link" data-page="bible">Bible</a></li>
+                        <li><a href="#" class="nav-link" data-page="bookmarks">Bookmarks</a></li>
+                        <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                    </ul>
+                </nav>
+                <button class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <button class="mobile-menu-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Home Page -->
+        <section id="home" class="page active">
+            <div class="container">
+                <div class="hero">
+                    <h2 class="hero-title">Welcome to The Word</h2>
+                    <p class="hero-subtitle">Your personal Bible study companion</p>
+                </div>
+
+                <!-- Daily Verse Widget -->
+                <article class="daily-verse-card">
+                    <h3 class="card-title">Verse of the Day</h3>
+                    <div class="daily-verse-content">
+                        <div class="verse-loader">
+                            <div class="spinner"></div>
+                            <p>Loading today's verse...</p>
+                        </div>
+                        <div class="verse-text" style="display: none;">
+                            <blockquote class="verse-quote"></blockquote>
+                            <cite class="verse-reference"></cite>
+                        </div>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn btn-primary" onclick="navigateTo('bible')">
+                            Start Reading
+                        </button>
+                    </div>
+                </article>
+
+                <!-- Features Section -->
+                <div class="features">
+                    <div class="feature-card">
+                        <div class="feature-icon">📚</div>
+                        <h3 class="feature-title">Read the Bible</h3>
+                        <p class="feature-description">Access all 66 books of the Bible, organized by Old and New Testament.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔍</div>
+                        <h3 class="feature-title">Search Verses</h3>
+                        <p class="feature-description">Find specific verses or search by keywords instantly.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🔖</div>
+                        <h3 class="feature-title">Bookmark & Save</h3>
+                        <p class="feature-description">Save your favorite verses and access them anytime.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🌓</div>
+                        <h3 class="feature-title">Dark Mode</h3>
+                        <p class="feature-description">Switch between light and dark themes for comfortable reading.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bible Page -->
+        <section id="bible" class="page">
+            <div class="container">
+                <div class="bible-header">
+                    <h2 class="page-title">Read the Bible</h2>
+                    <div class="search-container">
+                        <input 
+                            type="search" 
+                            class="search-input" 
+                            placeholder="Search verses or enter reference (e.g., John 3:16)..."
+                            aria-label="Search Bible verses"
+                        >
+                        <div class="search-results" style="display: none;"></div>
+                    </div>
+                </div>
+
+                <div class="bible-layout">
+                    <!-- Sidebar - Book Selection -->
+                    <aside class="bible-sidebar">
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">Old Testament</h3>
+                            <div class="book-list" id="old-testament-books"></div>
+                        </div>
+                        <div class="sidebar-section">
+                            <h3 class="sidebar-title">New Testament</h3>
+                            <div class="book-list" id="new-testament-books"></div>
+                        </div>
+                    </aside>
+
+                    <!-- Main Reading Area -->
+                    <div class="bible-content">
+                        <!-- Welcome State -->
+                        <div class="bible-welcome" id="bible-welcome">
+                            <div class="welcome-icon">📖</div>
+                            <h3>Select a Book to Begin</h3>
+                            <p>Choose a book from the sidebar to start reading.</p>
+                        </div>
+
+                        <!-- Chapter Selection -->
+                        <div class="chapter-selection" id="chapter-selection" style="display: none;">
+                            <h3 class="selected-book-title"></h3>
+                            <div class="chapter-grid"></div>
+                        </div>
+
+                        <!-- Verse Display -->
+                        <div class="verse-display" id="verse-display" style="display: none;">
+                            <div class="verse-header">
+                                <button class="btn-back" aria-label="Back to chapter selection">
+                                    ← Back
+                                </button>
+                                <h3 class="chapter-title"></h3>
+                            </div>
+                            <div class="verse-loader">
+                                <div class="spinner"></div>
+                                <p>Loading chapter...</p>
+                            </div>
+                            <div class="verses-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bookmarks Page -->
+        <section id="bookmarks" class="page">
+            <div class="container">
+                <h2 class="page-title">My Bookmarks</h2>
+                <div class="bookmarks-container">
+                    <div class="empty-state" id="bookmarks-empty">
+                        <div class="empty-icon">🔖</div>
+                        <h3>No Bookmarks Yet</h3>
+                        <p>Start bookmarking your favorite verses to see them here.</p>
+                        <button class="btn btn-primary" onclick="navigateTo('bible')">
+                            Browse Bible
+                        </button>
+                    </div>
+                    <div class="bookmarks-list" id="bookmarks-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Page -->
+        <section id="about" class="page">
+            <div class="container">
+                <h2 class="page-title">About The Word</h2>
+                <div class="about-content">
+                    <article class="about-section">
+                        <h3>Our Mission</h3>
+                        <p>The Word is a modern, user-friendly Bible study application designed to make scripture accessible to everyone. Whether you're studying, researching, or seeking inspiration, our app provides a seamless reading experience across all devices.</p>
+                    </article>
+
+                    <article class="about-section">
+                        <h3>Features</h3>
+                        <ul class="feature-list">
+                            <li>📖 Complete Bible text with all 66 books</li>
+                            <li>🔍 Powerful search functionality</li>
+                            <li>🔖 Bookmark and save your favorite verses</li>
+                            <li>📱 Fully responsive design for all devices</li>
+                            <li>🌓 Dark and light mode for comfortable reading</li>
+                            <li>📋 Copy verses to clipboard</li>
+                            <li>🔗 Share verses on social media</li>
+                            <li>💾 Offline bookmark storage</li>
+                        </ul>
+                    </article>
+
+                    <article class="about-section">
+                        <h3>Data Source</h3>
+                        <p>All Bible text is provided by the <a href="https://bible-api.com" target="_blank" rel="noopener noreferrer">Bible API</a>, a free and open-source API that serves the King James Version (KJV) of the Bible. We are grateful for their service in making scripture freely accessible.</p>
+                    </article>
+
+                    <article class="about-section">
+                        <h3>Technology</h3>
+                        <p>This application is built with modern web technologies:</p>
+                        <ul class="tech-list">
+                            <li>HTML5 for semantic structure</li>
+                            <li>CSS3 with custom properties for theming</li>
+                            <li>Vanilla JavaScript for all functionality</li>
+                            <li>LocalStorage API for data persistence</li>
+                            <li>Fetch API for Bible content retrieval</li>
+                        </ul>
+                    </article>
+
+                    <article class="about-section">
+                        <h3>Accessibility</h3>
+                        <p>We are committed to making The Word accessible to all users. The app includes:</p>
+                        <ul>
+                            <li>ARIA labels for screen readers</li>
+                            <li>Keyboard navigation support</li>
+                            <li>High contrast color schemes (WCAG AA compliant)</li>
+                            <li>Readable font sizes and line spacing</li>
+                        </ul>
+                    </article>
+
+                    <article class="about-section">
+                        <h3>Privacy</h3>
+                        <p>Your privacy is important to us. All bookmarks and preferences are stored locally on your device. We do not collect, store, or share any personal information.</p>
+                    </article>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-text">
+                    &copy; 2024 The Word. All rights reserved.
+                </p>
+                <p class="footer-attribution">
+                    Bible text provided by <a href="https://bible-api.com" target="_blank" rel="noopener noreferrer">Bible API</a>
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast" role="alert" aria-live="polite"></div>
+
+    <!-- JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
