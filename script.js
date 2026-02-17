@@ -2524,6 +2524,286 @@ const MORNING_PRAYERS = [
         verseRef: 'Ephesians 2:10',
         text: 'Creator God, You made me on purpose and for a purpose. I am not an accident — I am Your handiwork, Your masterpiece. Help me to walk in the good works You have prepared for me.\n\nWhen I feel insignificant, remind me that my life matters to You. When I feel directionless, show me the path You have laid out. Let this day be filled with meaningful moments and divine appointments.',
         closing: 'I walk in Your purpose today, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Humility',
+        verse: 'He has shown you, O mortal, what is good. And what does the LORD require of you? To act justly and to love mercy and to walk humbly with your God.',
+        verseRef: 'Micah 6:8',
+        text: 'Lord, the world tells me to promote myself, to boast, to climb over others to get ahead. But You call me to walk humbly.\n\nStrip away my pride this morning. Help me see myself clearly — not more than I am, and not less than You made me to be. Give me the grace to celebrate others, to serve without needing recognition, and to remember that every good thing in my life is a gift from You.',
+        closing: 'Teach me humility, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Patience',
+        verse: 'Be completely humble and gentle; be patient, bearing with one another in love.',
+        verseRef: 'Ephesians 4:2',
+        text: 'Patient Father, I confess that patience does not come naturally to me. I want things now. I want answers now. I get frustrated when things don\'t move at my pace.\n\nBut You are the God who waited centuries to fulfill Your promises — and You never once grew impatient. Teach me to wait well today. When the traffic is slow, when the line is long, when the person is difficult — fill me with supernatural patience that reflects Your character.',
+        closing: 'Give me Your patience, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Kindness',
+        verse: 'Be kind and compassionate to one another, forgiving each other, just as in Christ God forgave you.',
+        verseRef: 'Ephesians 4:32',
+        text: 'Gracious God, make me an instrument of Your kindness today. In a world that can be harsh and cold, let me be a warm presence.\n\nHelp me to speak gently, to listen carefully, and to act generously. Open my eyes to the cashier who looks tired, the coworker who seems stressed, the stranger who needs a smile. Let every interaction today leave someone feeling a little more loved because they crossed paths with me.',
+        closing: 'Let Your kindness shine through me, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Work',
+        verse: 'Whatever you do, work at it with all your heart, as working for the Lord, not for human masters.',
+        verseRef: 'Colossians 3:23',
+        text: 'Lord of all, I dedicate my work to You today. Whether my tasks feel exciting or mundane, meaningful or monotonous — help me to do them all with excellence, as if I were doing them directly for You.\n\nBless the work of my hands. Give me focus when I\'m distracted, creativity when I\'m stuck, and perseverance when I want to quit. Remind me that no honest work is too small when it\'s offered to You.',
+        closing: 'I work for Your glory today, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Family',
+        verse: 'As for me and my household, we will serve the LORD.',
+        verseRef: 'Joshua 24:15',
+        text: 'Heavenly Father, I lift up my family to You this morning. You know each one — their joys, their struggles, their secrets, their needs. Love them in ways I cannot.\n\nBind us together with cords of love that cannot be broken. Heal any hurts between us. Where there is distance, bring closeness. Where there is conflict, bring reconciliation. Protect each member of my family today, and draw us all closer to You and to each other.',
+        closing: 'Bless my family, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Joy',
+        verse: 'The joy of the LORD is your strength.',
+        verseRef: 'Nehemiah 8:10',
+        text: 'God of joy, I choose joy today — not because everything is perfect, but because You are good. Not because life is easy, but because You are faithful.\n\nFill me with a joy that doesn\'t depend on circumstances. A joy that can laugh in the rain, sing in the storm, and smile through tears. The kind of deep, unshakable joy that comes only from knowing You. Let my joy today be contagious and point others to You.',
+        closing: 'I choose Your joy today, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Self-Control',
+        verse: 'Like a city whose walls are broken through is a person who lacks self-control.',
+        verseRef: 'Proverbs 25:28',
+        text: 'Holy Spirit, I need Your help with self-control today. Help me to control my tongue — to think before I speak and to hold back words that wound. Help me to control my appetites — to choose what is healthy over what is easy.\n\nHelp me to control my reactions — to respond instead of react, to pause instead of lash out. I know I cannot do this in my own strength, but Your Spirit within me produces the fruit of self-control. I depend on You today.',
+        closing: 'Produce Your fruit in me, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Forgiveness',
+        verse: 'Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you.',
+        verseRef: 'Colossians 3:13',
+        text: 'Merciful God, You have forgiven me of so much. Today I ask for the grace to extend that same forgiveness to others.\n\nI bring before You the people who have hurt me — some recently, some long ago. I don\'t want to carry bitterness anymore. It\'s too heavy. Help me to release them, not because they deserve it, but because You have released me. Free my heart from resentment so there is room for Your love to fill it.',
+        closing: 'I choose to forgive, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Protection',
+        verse: 'The LORD is my rock, my fortress and my deliverer; my God is my rock, in whom I take refuge.',
+        verseRef: 'Psalm 18:2',
+        text: 'Mighty fortress, I take shelter in You this morning. Cover me with Your protection as I step into this day. Shield me from harm — physical, emotional, and spiritual.\n\nGuard my mind from lies, my heart from temptation, and my path from danger. Place Your angels around me and my loved ones. When the enemy attacks, remind me that greater is He who is in me than he who is in the world.',
+        closing: 'I am safe in You, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Generosity',
+        verse: 'Give, and it will be given to you. A good measure, pressed down, shaken together and running over.',
+        verseRef: 'Luke 6:38',
+        text: 'Generous God, everything I have comes from You. My time, my talents, my resources — they are all gifts. Help me to hold them with open hands.\n\nMake me generous today — generous with my money, generous with my time, generous with my compliments, generous with my forgiveness. Cure me of the fear of not having enough, and help me trust that as I give, You will always provide.',
+        closing: 'Make me generous like You, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Contentment',
+        verse: 'I have learned the secret of being content in any and every situation.',
+        verseRef: 'Philippians 4:12',
+        text: 'Lord, the world constantly tells me I need more — more money, more success, more stuff. But Your Word says godliness with contentment is great gain.\n\nTeach me to be content with what I have today. Not complacent, but at peace. Not lazy, but grateful. Help me to stop comparing myself to others and instead count the blessings You have already poured into my life. You are enough for me.',
+        closing: 'You are my portion, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Lost',
+        verse: 'The Lord is not slow in keeping his promise. He is patient with you, not wanting anyone to perish, but everyone to come to repentance.',
+        verseRef: '2 Peter 3:9',
+        text: 'Saving God, my heart breaks for those who don\'t know You yet. Friends, family members, neighbors, coworkers — people I love who are walking through life without the hope that only comes from You.\n\nSoften their hearts. Open their eyes. Send people into their lives who will shine Your light. And use me, Lord — give me courage to share my faith, wisdom to know when to speak, and love that makes the gospel irresistible.',
+        closing: 'Save the lost, Lord, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Integrity',
+        verse: 'The integrity of the upright guides them, but the unfaithful are destroyed by their duplicity.',
+        verseRef: 'Proverbs 11:3',
+        text: 'Righteous God, help me to be the same person in private that I am in public. Help me to live with integrity — when no one is watching, when no one would know, when it would be easy to cut corners.\n\nLet my word be my bond. Let my character be consistent. Let my actions match my beliefs. I want to be a person others can trust completely, because I am anchored to You, the God of truth.',
+        closing: 'Build integrity in me, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer Before Meals',
+        verse: 'He gives food to every creature. His love endures forever.',
+        verseRef: 'Psalm 136:25',
+        text: 'Provider God, thank You for this food before me. In a world where many go hungry, I do not take this provision for granted.\n\nBless this food to nourish my body and strengthen me for Your service. And as You fill my physical hunger, fill my spiritual hunger too. Remind me that man does not live by bread alone, but by every word that comes from Your mouth. Let me never forget that You are the source of every good thing.',
+        closing: 'Thank You for Your provision, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Health',
+        verse: 'Dear friend, I pray that you may enjoy good health and that all may go well with you, even as your soul is getting along well.',
+        verseRef: '3 John 1:2',
+        text: 'Great Healer, I thank You for my body — fearfully and wonderfully made. Today I ask for health and vitality to serve You well.\n\nStrengthen my body, sharpen my mind, and renew my spirit. Help me to make wise choices about what I eat, how I rest, and how I care for the body You have given me. And for those I know who are battling illness, I ask for Your healing touch. Nothing is impossible for You.',
+        closing: 'I trust You with my health, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Church',
+        verse: 'For where two or three gather in my name, there am I with them.',
+        verseRef: 'Matthew 18:20',
+        text: 'Head of the Church, I lift up Your bride today — the Church around the world. Pastors, leaders, missionaries, and believers everywhere who are doing Your work.\n\nRevive Your Church, Lord. Unite where there is division. Empower where there is weakness. Fan the flame where it is dimming. Let Your Church be known not for arguments or politics, but for radical love, genuine faith, and the power of the Holy Spirit.',
+        closing: 'Revive Your Church, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Nations',
+        verse: 'Ask me, and I will make the nations your inheritance, the ends of the earth your possession.',
+        verseRef: 'Psalm 2:8',
+        text: 'King of Kings, I lift up the nations of the earth to You this morning. You love every people, every tribe, every tongue.\n\nBring peace where there is war. Bring justice where there is oppression. Bring hope where there is despair. Raise up godly leaders who will govern with wisdom and righteousness. And let the knowledge of Your glory cover the earth as the waters cover the sea.',
+        closing: 'Your kingdom come on earth, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Children',
+        verse: 'Let the little children come to me, and do not hinder them, for the kingdom of heaven belongs to such as these.',
+        verseRef: 'Matthew 19:14',
+        text: 'Father of all, I pray for children everywhere this morning — for babies and toddlers, for school-age children and teenagers. They are precious in Your sight.\n\nProtect them from harm, from abuse, from the lies of this world. Give them loving families and safe homes. Help them to know You from a young age. And for those children who are suffering — hungry, orphaned, exploited, afraid — be their defender and their rescuer.',
+        closing: 'Protect the children, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Surrender',
+        verse: 'Not my will, but yours be done.',
+        verseRef: 'Luke 22:42',
+        text: 'Sovereign Lord, these were the words Jesus prayed in the Garden of Gethsemane, and I make them my own this morning. Not my will, but Yours be done.\n\nI surrender my agenda. I surrender my timeline. I surrender my expectations. I don\'t know what today holds, but I know who holds today. Take the steering wheel of my life, Lord. I trust Your plan more than my own, even when I don\'t understand it.',
+        closing: 'Your will be done, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Hope',
+        verse: 'May the God of hope fill you with all joy and peace as you trust in him, so that you may overflow with hope by the power of the Holy Spirit.',
+        verseRef: 'Romans 15:13',
+        text: 'God of hope, some mornings the world feels heavy. The news is dark, the problems seem impossible, and hope feels fragile. But You are the unshakeable source of hope.\n\nFill me with hope today — not wishful thinking, but the confident assurance that You are working all things together for good. Let my hope overflow and splash onto everyone I meet. In a hopeless world, make me a carrier of Your hope.',
+        closing: 'I overflow with hope, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for My Enemies',
+        verse: 'But I tell you, love your enemies and pray for those who persecute you.',
+        verseRef: 'Matthew 5:44',
+        text: 'Lord Jesus, this is one of the hardest things You ask of me — to pray for those who hurt me, misunderstand me, or work against me. My flesh wants revenge, but Your Spirit calls me to love.\n\nSo I pray for them this morning. Soften their hearts. Open their eyes to Your truth. If I have wronged them unknowingly, reveal it to me. Replace bitterness in my heart with compassion, and resentment with grace. Help me to see them the way You see them — as people You love.',
+        closing: 'I choose love over hate, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Discipline',
+        verse: 'For the Spirit God gave us does not make us timid, but gives us power, love and self-discipline.',
+        verseRef: '2 Timothy 1:7',
+        text: 'Father, I confess that discipline does not come naturally to me. I am easily distracted, quick to procrastinate, and prone to taking the easy road. But You have given me a spirit of self-discipline.\n\nHelp me today to stay focused on what matters. Give me the strength to say no to distractions and yes to the things that align with Your will. Whether it\'s my work, my health, my relationships, or my walk with You — let me be faithful in the small things.',
+        closing: 'I walk in discipline and purpose, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Lonely',
+        verse: 'The LORD is close to the brokenhearted and saves those who are crushed in spirit.',
+        verseRef: 'Psalm 34:18',
+        text: 'Compassionate God, I lift up those who are lonely this morning — the elderly person who hasn\'t had a visitor in weeks, the new student eating lunch alone, the widow staring at an empty chair, the person scrolling their phone wishing someone would call.\n\nDraw close to them, Lord. Remind them they are never truly alone because You are with them. And use me, Father — open my eyes to the lonely ones around me and give me courage to reach out.',
+        closing: 'Use me to comfort the lonely, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Clean Hands and Pure Heart',
+        verse: 'Who may ascend the mountain of the LORD? Who may stand in his holy place? The one who has clean hands and a pure heart.',
+        verseRef: 'Psalm 24:3-4',
+        text: 'Holy God, I want to walk before You today with integrity. Purify my heart from hidden motives, secret sins, and double-mindedness. Let my public life match my private life.\n\nWash my hands of anything I have touched that dishonors You. Remove from my heart every thought, desire, and ambition that does not glorify Your name. I want to stand in Your holy place — not because I am perfect, but because I am surrendered.',
+        closing: 'Create in me a clean heart, O God, Amen.'
+    },
+    {
+        title: 'A Prayer for My Pastor',
+        verse: 'Remember your leaders, who spoke the word of God to you. Consider the outcome of their way of life and imitate their faith.',
+        verseRef: 'Hebrews 13:7',
+        text: 'Lord, I lift up my pastor and church leaders to You this morning. They carry burdens I may never see — the weight of caring for souls, the pressure of preparing sermons, the challenge of leading imperfect people.\n\nRefresh them today. Protect their marriages, their families, and their own walk with You. Give them wisdom for difficult decisions and courage to preach truth even when it\'s unpopular. Shield them from burnout and discouragement.',
+        closing: 'Strengthen my shepherd, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Creativity',
+        verse: 'In the beginning God created the heavens and the earth.',
+        verseRef: 'Genesis 1:1',
+        text: 'Creator God, You are the Author of all creativity — every color, every melody, every mathematical equation, every sunset reflects Your imagination. And You made me in Your image.\n\nUnlock creativity in me today. Whether I\'m writing, cooking, problem-solving, or parenting — help me to think outside the box. Give me fresh ideas, innovative solutions, and the ability to see beauty where others see nothing. Let my creativity point others to You, the ultimate Creator.',
+        closing: 'Inspire me today, Creator God, Amen.'
+    },
+    {
+        title: 'A Prayer for Financial Wisdom',
+        verse: 'The blessing of the LORD brings wealth, without painful toil for it.',
+        verseRef: 'Proverbs 10:22',
+        text: 'Provider God, I bring my finances before You this morning. You know my needs, my debts, my goals, and my anxieties about money. I trust that You are my provider.\n\nGive me wisdom to manage what You\'ve given me faithfully. Help me to be generous, to save wisely, and to spend thoughtfully. Free me from the love of money and the fear of lack. Teach me to be content whether I have plenty or little, knowing that my true treasure is in heaven.',
+        closing: 'I trust You as my provider, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Missionaries',
+        verse: 'Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit.',
+        verseRef: 'Matthew 28:19',
+        text: 'Lord of the harvest, I pray for missionaries serving in difficult places around the world — those who left their homes, families, and comfort zones to share the gospel.\n\nProtect them physically and spiritually. Provide for their needs. Sustain their families. Give them breakthroughs in the communities they serve. Open hearts to receive the message of salvation. And stir up more workers for Your harvest, including me — whether it\'s across the ocean or across the street.',
+        closing: 'Send more workers into the harvest, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Today\'s Conversations',
+        verse: 'Let your conversation be always full of grace, seasoned with salt, so that you may know how to answer everyone.',
+        verseRef: 'Colossians 4:6',
+        text: 'Lord, I will speak hundreds of words today — in meetings, in messages, at meals, in passing. Each word has power to build up or tear down.\n\nGuard my tongue today. Let my words be full of grace and truth. Help me to listen more than I speak, to encourage more than I complain, and to speak life into every person I encounter. When I\'m tempted to gossip, criticize, or exaggerate — hold my tongue. Let my words taste like salt and light to a flavorless, dark world.',
+        closing: 'Season my words with grace, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Endurance',
+        verse: 'Let us run with perseverance the race marked out for us, fixing our eyes on Jesus.',
+        verseRef: 'Hebrews 12:1-2',
+        text: 'Jesus, some mornings I feel like giving up — on a dream, a relationship, a calling, or just the daily grind. The race feels long and the finish line seems invisible.\n\nBut You have marked out a specific race for me, and You\'ve gone before me. Strip away every weight that slows me down — doubt, distraction, discouragement, sin. Give me endurance to keep going. I fix my eyes on You, the author and perfecter of my faith. One more step, one more day.',
+        closing: 'I will not give up, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Gratitude',
+        verse: 'Give thanks in all circumstances; for this is God\'s will for you in Christ Jesus.',
+        verseRef: '1 Thessalonians 5:18',
+        text: 'Father, before my complaints start, I want to start with thanks. Thank You for the breath in my lungs. Thank You for a new day. Thank You for salvation. Thank You for grace upon grace.\n\nI know Your will is for me to give thanks in ALL circumstances — not just the good ones. So I choose gratitude today, even for the hard things, trusting that You are weaving everything together for Your glory and my good. Gratitude changes my perspective, and today I choose to see through grateful eyes.',
+        closing: 'I am grateful, Lord, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Healing',
+        verse: 'He heals the brokenhearted and binds up their wounds.',
+        verseRef: 'Psalm 147:3',
+        text: 'Healer of body and soul, I bring my pain to You this morning — whether it\'s physical illness, emotional wounds, or spiritual dryness. You are Jehovah Rapha, the God who heals.\n\nTouch every area that is broken. Heal my body where sickness lingers. Heal my heart where grief and rejection have left scars. Heal my spirit where doubt and disappointment have taken root. I believe You can heal me completely — and even if healing comes slowly, I trust Your timing.',
+        closing: 'I believe in Your healing power, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Boldness',
+        verse: 'For God has not given us a spirit of fear, but of power and of love and of a sound mind.',
+        verseRef: '2 Timothy 1:7',
+        text: 'Mighty God, I confess that fear often holds me back — fear of failure, fear of rejection, fear of the unknown. But Your Word says You have not given me a spirit of fear.\n\nReplace my timidity with holy boldness. Give me the courage to speak up when I should, to stand out when the crowd is going the wrong way, and to step out in faith even when the path is unclear. Let me be bold like the early apostles — not reckless, but Spirit-empowered.',
+        closing: 'I walk in boldness and not fear, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Unity in My Home',
+        verse: 'How good and pleasant it is when God\'s people live together in unity!',
+        verseRef: 'Psalm 133:1',
+        text: 'Father, my home is where I am most real — and sometimes most difficult. Arguments, misunderstandings, and busy schedules can fracture the unity You desire for my household.\n\nBring peace to my home today. Help us to be quick to listen, slow to anger, and eager to forgive. Let laughter fill our rooms and love fill our conversations. Whether I live alone, with family, or with roommates — make my home a sanctuary of Your presence.',
+        closing: 'Let peace rule in my home, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Oppressed',
+        verse: 'Learn to do right; seek justice. Defend the oppressed. Take up the cause of the fatherless; plead the case of the widow.',
+        verseRef: 'Isaiah 1:17',
+        text: 'God of justice, I pray for those who are oppressed, marginalized, and voiceless around the world — victims of trafficking, those living under tyranny, the poor who are exploited, minorities who are discriminated against.\n\nYou are a God who sees, who hears, and who acts. Rise up and defend the defenseless. Use me as an instrument of Your justice — open my eyes to injustice around me and give me the courage to speak up and act.',
+        closing: 'Let justice roll like a river, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer Before Reading Scripture',
+        verse: 'Open my eyes that I may see wonderful things in your law.',
+        verseRef: 'Psalm 119:18',
+        text: 'Holy Spirit, I am about to open Your Word. But before my eyes scan the page, I need You to open the eyes of my heart.\n\nHelp me to see wonderful things I\'ve never noticed before. Speak to me personally through the ancient text. Make the words come alive — not as information, but as transformation. Give me ears to hear what You are saying to me today, and the faith to obey what I hear.',
+        closing: 'Speak, Lord, Your servant is listening, Amen.'
+    },
+    {
+        title: 'A Prayer for Neighbors',
+        verse: 'Love your neighbor as yourself.',
+        verseRef: 'Mark 12:31',
+        text: 'Lord, You command me to love my neighbor — not just the ones I like, but every person You have placed near me. The co-worker I struggle with, the neighbor I barely know, the stranger I pass on the street.\n\nGive me Your eyes to see them. Give me Your heart to love them. Show me one practical way I can be a good neighbor today — a kind word, a helping hand, an invitation to coffee, a listening ear. Let my neighborhood be better because I live in it.',
+        closing: 'Help me love my neighbor well, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Revival',
+        verse: 'Will you not revive us again, that your people may rejoice in you?',
+        verseRef: 'Psalm 85:6',
+        text: 'Lord God, we are in desperate need of revival — in our hearts, in our churches, in our communities, in our nations. We have drifted far from You, and the evidence is everywhere.\n\nBut You are the God who revives dry bones and ignites cold hearts. Start with me, Lord. Revive my prayer life, my passion for Your Word, my love for the lost, my hunger for holiness. And then let the fire spread — from heart to heart, from home to home, until revival sweeps across the land.',
+        closing: 'Revive us again, O Lord, Amen.'
+    },
+    {
+        title: 'A Prayer of Delight',
+        verse: 'Delight yourself in the LORD, and he will give you the desires of your heart.',
+        verseRef: 'Psalm 37:4',
+        text: 'Gracious God, this morning I choose to delight in You — not in my circumstances, not in my achievements, not in what I have or don\'t have, but in You. You alone are the source of true delight.\n\nAs I delight in You, align my desires with Yours. Remove the desires that don\'t honor You and plant new ones that bring You glory. I trust that as I seek You first, everything else will fall into its proper place.',
+        closing: 'You are my delight, Lord, Amen.'
+    },
+    {
+        title: 'A Prayer for Obedience',
+        verse: 'If you love me, keep my commands.',
+        verseRef: 'John 14:15',
+        text: 'Lord Jesus, obedience is not popular in a world that celebrates doing whatever feels right. But You call me to a different standard — not blind obedience born of fear, but loving obedience born of relationship.\n\nToday, help me to obey You in the small things and the big things. When Your Word contradicts my desires, give me the strength to choose Your way. When the crowd goes one direction and You call me another, give me the courage to follow You alone. My obedience is my love letter to You.',
+        closing: 'I choose obedience out of love, in Jesus\' name, Amen.'
     }
 ];
 
@@ -2597,11 +2877,291 @@ const EVENING_PRAYERS = [
         verseRef: 'Matthew 6:9',
         text: 'Our Father in heaven, hallowed be Your name. Your kingdom come, Your will be done, on earth as it is in heaven.\n\nGive us today our daily bread. And forgive us our debts, as we also have forgiven our debtors. And lead us not into temptation, but deliver us from the evil one.\n\nFor Yours is the kingdom and the power and the glory forever.',
         closing: 'Amen.'
+    },
+    {
+        title: 'A Prayer for Renewed Mind',
+        verse: 'Do not conform to the pattern of this world, but be transformed by the renewing of your mind.',
+        verseRef: 'Romans 12:2',
+        text: 'Transforming God, as this day closes I ask You to renew my mind. Wash away the negative thoughts, the toxic influences, and the worldly patterns that crept in today.\n\nReplace lies with truth. Replace cynicism with faith. Replace anxiety with trust. While I sleep, let Your Spirit do the deep work of transformation that only You can do. Let me wake up with a mind that is clearer, sharper, and more aligned with Your thoughts.',
+        closing: 'Renew my mind tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Grace',
+        verse: 'But he said to me, "My grace is sufficient for you, for my power is made perfect in weakness."',
+        verseRef: '2 Corinthians 12:9',
+        text: 'God of all grace, I was not perfect today. I said things I shouldn\'t have said. I failed to do things I should have done. I fell short of the person I want to be.\n\nBut Your grace is sufficient. Not just barely enough — abundantly sufficient. Thank You that Your love for me is not based on my performance. Thank You that tomorrow I get to start fresh, not because I earned it, but because Your mercies are new every morning.',
+        closing: 'I rest in Your grace, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Peaceful Sleep',
+        verse: 'In peace I will lie down and sleep, for you alone, LORD, make me dwell in safety.',
+        verseRef: 'Psalm 4:8',
+        text: 'God of peace, I bring You my restless mind tonight. The thoughts that spiral, the to-do lists that grow, the conversations I replay over and over.\n\nSilence the noise. Turn off the mental chatter. Replace the static with the still, small voice of Your Spirit whispering, "I\'ve got this. You can rest now." Give me the deep, restorative sleep that my body and soul desperately need.',
+        closing: 'In peace I lie down, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Praise',
+        verse: 'From the rising of the sun to the place where it sets, the name of the LORD is to be praised.',
+        verseRef: 'Psalm 113:3',
+        text: 'Worthy God, the sun has set and I want the last words on my lips to be words of praise. Not because today was perfect, but because You are perfect.\n\nI praise You for Your faithfulness that never fails. I praise You for Your love that never ends. I praise You for Your power that never weakens. I praise You for Your mercy that never runs dry. You are worthy of all praise, now and forever.',
+        closing: 'All glory and honor to You, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Trust',
+        verse: 'When I am afraid, I put my trust in you.',
+        verseRef: 'Psalm 56:3',
+        text: 'Trustworthy God, tonight I choose trust over worry. I don\'t know what tomorrow holds — but I know who holds tomorrow, and that is enough.\n\nFor every uncertainty, I trust Your sovereignty. For every problem without a solution, I trust Your wisdom. For every need that remains unmet, I trust Your provision. You have never failed me, and You never will. I go to sleep tonight wrapped in the confidence that You are in control.',
+        closing: 'I trust You completely, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Perseverance',
+        verse: 'Let us not become weary in doing good, for at the proper time we will reap a harvest if we do not give up.',
+        verseRef: 'Galatians 6:9',
+        text: 'Steadfast God, today was hard. I felt like giving up — on my goals, on my dreams, on that situation that never seems to change. The fight feels long and the progress feels slow.\n\nBut You remind me not to grow weary. The harvest is coming. Every act of obedience matters. Every prayer is heard. Every step forward counts. Give me the perseverance to keep going tomorrow, trusting that Your timing is perfect.',
+        closing: 'I will not give up, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Purity',
+        verse: 'Create in me a pure heart, O God, and renew a steadfast spirit within me.',
+        verseRef: 'Psalm 51:10',
+        text: 'Holy God, as I end this day, I ask You to create a pure heart within me. Cleanse me from every impure thought, every selfish motive, every hidden sin that I\'ve tried to ignore.\n\nI don\'t want to carry anything into tomorrow that doesn\'t belong there. Wash me clean. Make me new. Restore the joy of right relationship with You. Let me go to sleep with a clear conscience and a clean heart.',
+        closing: 'Create in me a clean heart, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Weary',
+        verse: 'He gives strength to the weary and increases the power of the weak.',
+        verseRef: 'Isaiah 40:29',
+        text: 'Sustaining God, I am weary tonight. Weary in body, weary in spirit, weary in soul. Some days the weight of life feels like more than I can carry.\n\nBut You promise to give strength to the weary. So I come to You empty, knowing that You love to fill empty vessels. I don\'t need to be strong tonight — I just need to rest in the One who is strong for me. Carry me through the night, Lord.',
+        closing: 'I lean on Your strength, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Gratitude',
+        verse: 'In everything give thanks; for this is the will of God in Christ Jesus for you.',
+        verseRef: '1 Thessalonians 5:18',
+        text: 'Good Father, before I sleep, let me remember:\n\nThank You for the morning light that woke me. Thank You for the breath in my lungs all day long. Thank You for food on my table and water to drink. Thank You for people who love me — and even those who challenged me, because they made me grow. Thank You for the small mercies I noticed and the countless ones I missed. Today was a gift. I don\'t want to forget that.',
+        closing: 'Thank You for everything, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Marriage and Relationships',
+        verse: 'Above all, love each other deeply, because love covers over a multitude of sins.',
+        verseRef: '1 Peter 4:8',
+        text: 'God of love, I lift up my relationships to You tonight. For those closest to me — spouse, family, dear friends — help us love each other better.\n\nHeal any words spoken in haste today. Mend any feelings that were bruised. Give us the humility to apologize when we\'re wrong and the grace to forgive when we\'re hurt. Knit our hearts together more tightly, and let love be the defining mark of every relationship in my life.',
+        closing: 'Strengthen our bonds of love, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Spiritual Growth',
+        verse: 'But grow in the grace and knowledge of our Lord and Savior Jesus Christ.',
+        verseRef: '2 Peter 3:18',
+        text: 'Lord Jesus, I don\'t want to be the same person I was yesterday. I want to grow closer to You with every passing day.\n\nAs I sleep tonight, plant seeds of spiritual growth deep in my heart. Give me a greater hunger for Your Word, a deeper desire for prayer, and a stronger love for the people You\'ve placed in my life. I don\'t want a stagnant faith — I want a living, growing, adventurous walk with You.',
+        closing: 'Grow me in faith, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer Against Anxiety',
+        verse: 'Cast all your anxiety on him because he cares for you.',
+        verseRef: '1 Peter 5:7',
+        text: 'Caring Father, anxiety has been whispering to me today — "what if" and "what about" playing on repeat in my mind. The worries feel so heavy tonight.\n\nBut You invite me to cast them on You. Not hold them politely, not manage them myself — cast them. So here they are, Lord. Every worry, every fear, every anxious thought — I throw them all onto Your strong shoulders. You care for me. You\'ve got this. I can let go now.',
+        closing: 'I cast my cares on You, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Direction',
+        verse: 'Your word is a lamp for my feet, a light on my path.',
+        verseRef: 'Psalm 119:105',
+        text: 'Guiding God, I don\'t need to see the whole road tonight — I just need enough light for the next step. And Your Word is that lamp.\n\nI\'ve been struggling with decisions, wondering which way to turn. But I choose to trust that You will reveal the path at the right time. Help me not to rush ahead or lag behind, but to walk in perfect step with You. As I sleep, speak to my heart and give me clarity for the morning.',
+        closing: 'Light my path, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Brokenhearted',
+        verse: 'The LORD is close to the brokenhearted and saves those who are crushed in spirit.',
+        verseRef: 'Psalm 34:18',
+        text: 'Compassionate God, my heart is heavy tonight. For the pain I carry, for the grief that lingers, for the disappointments that cut deep — I need You.\n\nYour Word says You are close to the brokenhearted. Draw close to me now. Sit with me in the sadness. Catch my tears. You don\'t need to fix everything tonight — just be here. Your presence is enough to carry me through the darkness into the light of a new morning.',
+        closing: 'Be close to me tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Unity',
+        verse: 'How good and pleasant it is when God\'s people live together in unity!',
+        verseRef: 'Psalm 133:1',
+        text: 'God of peace, there is so much division in the world — in our nations, in our churches, even in our families. It breaks Your heart, and tonight it breaks mine.\n\nBring unity where there is division. Bring understanding where there is judgment. Bring love where there is hate. Start with me, Lord — help me to be a bridge-builder, a peacemaker, someone who chooses connection over conflict. Let unity begin in my own heart.',
+        closing: 'Make us one, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Eternal Perspective',
+        verse: 'So we fix our eyes not on what is seen, but on what is unseen, since what is seen is temporary, but what is unseen is eternal.',
+        verseRef: '2 Corinthians 4:18',
+        text: 'Eternal God, the troubles of today felt so big, so urgent, so consuming. But tonight, as the world grows quiet, help me zoom out and see the bigger picture.\n\nThis life is a breath — beautiful and precious, but brief. The things that stressed me today will be forgotten in a year. But the love I showed, the kindness I gave, the faith I held onto — those have eternal value. Help me invest in what lasts forever.',
+        closing: 'Fix my eyes on eternity, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Courage for Tomorrow',
+        verse: 'Have I not commanded you? Be strong and courageous. Do not be afraid; do not be discouraged, for the LORD your God will be with you wherever you go.',
+        verseRef: 'Joshua 1:9',
+        text: 'Commander of heaven\'s armies, I confess that tomorrow makes me anxious. There are conversations I dread, tasks I feel unqualified for, and challenges that seem bigger than me.\n\nBut You tell me — You command me — to be strong and courageous. Not because I have it all figured out, but because You go before me. Whatever I face tomorrow, You have already been there. I will not be afraid, because You will be with me.',
+        closing: 'I face tomorrow with courage, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Quiet Trust',
+        verse: 'Be still, and know that I am God.',
+        verseRef: 'Psalm 46:10',
+        text: 'Almighty God, I have done enough talking today. Enough doing. Enough striving. Enough worrying. Now I simply want to be still.\n\nIn the stillness of this night, I know that You are God. You are on Your throne. You are in control. You are working all things for my good. I don\'t need to understand everything — I just need to know You. And I do. And that is enough.\n\nBe still, my soul. Be still, and know.',
+        closing: 'I am still before You. Amen.'
+    },
+    {
+        title: 'A Prayer for Wisdom in Relationships',
+        verse: 'Above all, love each other deeply, because love covers over a multitude of sins.',
+        verseRef: '1 Peter 4:8',
+        text: 'Father, as I lay down tonight I think of the people You have placed in my life — family, friends, colleagues, neighbors. Some relationships bring joy, others carry tension.\n\nGive me wisdom to love well. Help me to be patient when patience is hard, to extend grace when I\'d rather hold a grudge, and to speak truth wrapped in kindness. Where there are broken relationships, begin the healing. Where there is love, deepen it.\n\nTeach me to love the way You love — selflessly, endlessly, without condition.',
+        closing: 'I entrust my relationships to You tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Praise Before Sleep',
+        verse: 'Let everything that has breath praise the LORD. Praise the LORD.',
+        verseRef: 'Psalm 150:6',
+        text: 'Lord God, I don\'t want this day to end without praising You. Not because everything went perfectly — but because You are worthy regardless of my circumstances.\n\nI praise You for who You are: Creator of the stars I see outside tonight, Sustainer of every heartbeat, Redeemer of my broken story, Friend who sticks closer than a brother. You are magnificent, and my words will never be enough.\n\nBut tonight, with whatever breath I have left in this day, I praise You.',
+        closing: 'All praise and glory to You, now and forever, Amen.'
+    },
+    {
+        title: 'A Prayer for Contentment Tonight',
+        verse: 'I have learned to be content whatever the circumstances.',
+        verseRef: 'Philippians 4:11',
+        text: 'Lord, as I close my eyes tonight, I confess that comparison and discontent have crept into my heart. I see what others have — their homes, their families, their success — and I feel lacking.\n\nBut contentment is not about having everything; it\'s about knowing that You are everything. Tonight I choose to be grateful for exactly where I am, exactly what I have, and exactly who You\'ve made me to be. Enough striving. Enough comparing. You are enough.',
+        closing: 'I am content in You, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Troubled Dreams',
+        verse: 'When you lie down, you will not be afraid; when you lie down, your sleep will be sweet.',
+        verseRef: 'Proverbs 3:24',
+        text: 'Father, sometimes my nights are haunted by anxious dreams, nightmares, and restless thoughts that replay the day\'s troubles. My mind won\'t turn off and my body can\'t relax.\n\nI claim Your promise of sweet sleep tonight. Guard my subconscious mind as I rest. Fill my dreams with peace instead of fear, with hope instead of dread. Let Your presence be so real in my room tonight that darkness and anxiety flee. I am not afraid, because You are here.',
+        closing: 'Grant me sweet and peaceful sleep, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for My Spouse',
+        verse: 'Two are better than one, because they have a good return for their labor.',
+        verseRef: 'Ecclesiastes 4:9',
+        text: 'Lord, I lift up my partner to You tonight. Thank You for this person You have placed beside me — imperfect, yes, but a gift from Your hand.\n\nStrengthen our bond. Forgive us for the ways we hurt each other today, knowingly or unknowingly. Renew our love, deepen our friendship, and reignite our commitment. Help us to fight for each other rather than against each other. And as we sleep side by side tonight, let Your love be the glue that holds us together.',
+        closing: 'Strengthen our marriage, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Single Season',
+        verse: 'Delight yourself in the LORD, and he will give you the desires of your heart.',
+        verseRef: 'Psalm 37:4',
+        text: 'Father, tonight the silence of being single feels especially loud. The empty chair, the quiet evenings, the longing for companionship — You see it all.\n\nHelp me to trust Your timing and Your plan for my life. Fill the lonely spaces with Your presence. Use this season to grow me, shape me, and prepare me for whatever is ahead. And whether You bring a partner or call me to serve You in singleness — let me find my deepest fulfillment in You alone.',
+        closing: 'You are my heart\'s true desire, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Those Grieving',
+        verse: 'Blessed are those who mourn, for they will be comforted.',
+        verseRef: 'Matthew 5:4',
+        text: 'Comforter God, tonight I pray for those who are grieving — those who lost a loved one recently, those whose grief has lingered for years, those who are mourning a dream that died, a relationship that ended, a chapter that closed.\n\nBe close to the brokenhearted tonight. Let them feel Your arms around them in the darkness. Remind them that grief is not a sign of weakness but of deep love. Comfort them in ways that only You can — with a peace that surpasses understanding.',
+        closing: 'Comfort those who mourn tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Repentance',
+        verse: 'If we confess our sins, he is faithful and just and will forgive us our sins and purify us from all unrighteousness.',
+        verseRef: '1 John 1:9',
+        text: 'Holy God, I come before You tonight with a heavy heart. I sinned today. Maybe it was a harsh word, a lustful glance, a selfish decision, or a lie I told myself was harmless. But sin is sin, and it grieves Your heart.\n\nI don\'t make excuses. I confess it fully. I am sorry, Lord — not just for getting caught or feeling guilty, but for offending Your holy nature. Thank You that Your faithfulness and justice meet at the cross. Cleanse me. Purify me. Give me a fresh start.',
+        closing: 'I receive Your forgiveness tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Workers of the Night',
+        verse: 'The LORD watches over you — the LORD is your shade at your right hand.',
+        verseRef: 'Psalm 121:5',
+        text: 'Lord, while I prepare for sleep, many are just starting their shifts — nurses caring for the sick, police officers patrolling the streets, firefighters on call, truck drivers on the highway, factory workers on the line, security guards in the darkness.\n\nWatch over them tonight. Keep them alert and safe. Sustain their energy and protect their health. Comfort their families who sleep without them. Bless the hands that serve while the world sleeps.',
+        closing: 'Protect the night workers, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Letting Go',
+        verse: 'Cast all your anxiety on him because he cares for you.',
+        verseRef: '1 Peter 5:7',
+        text: 'Father, I\'ve been carrying burdens that were never mine to carry — worry about tomorrow, regret about yesterday, anxiety about things I cannot control.\n\nTonight I open my hands and let it all go. I cast every care, every fear, every what-if onto Your more-than-capable shoulders. You care for me — not casually, but deeply, tenderly, relentlessly. I don\'t need to hold onto these things. You\'ve got them. You\'ve got me.',
+        closing: 'I let go and trust You completely, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for My Parents',
+        verse: 'Honor your father and your mother, so that you may live long in the land the LORD your God is giving you.',
+        verseRef: 'Exodus 20:12',
+        text: 'Lord, I pray for my parents tonight — whether they are near or far, whether our relationship is close or complicated, whether they are living or have gone to be with You.\n\nThank You for the gift of life they gave me. Forgive me for the times I\'ve taken them for granted. Bless them with health, peace, and joy. If there are wounds between us, begin the healing. And if they don\'t know You yet, draw them to Yourself with cords of love they cannot resist.',
+        closing: 'Bless my parents tonight, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer Against Temptation',
+        verse: 'No temptation has overtaken you except what is common to mankind. And God is faithful; he will not let you be tempted beyond what you can bear.',
+        verseRef: '1 Corinthians 10:13',
+        text: 'Faithful God, I faced temptation today — some I resisted, some I didn\'t. The pull of sin is strong, and my flesh is weak. But You are faithful.\n\nTonight I ask for strength to resist tomorrow\'s temptations before they even arrive. Identify the triggers, the situations, the thought patterns that lead me astray. Help me to flee from sin rather than flirt with it. And when I am tempted, show me the way of escape You have already prepared.',
+        closing: 'Keep me from temptation, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for God\'s Word',
+        verse: 'Your word is a lamp for my feet, a light on my path.',
+        verseRef: 'Psalm 119:105',
+        text: 'Lord, as I reflect on this day, I realize how much I need Your Word — not as an obligation but as a lifeline. Your Word is the lamp I need when the path ahead feels dark.\n\nForgive me for the days I neglect Your Scripture. Reignite my hunger for the Bible. Help me to read it not just with my eyes but with my heart. As I sleep tonight, let the verses I\'ve read take root deep in my spirit and bear fruit I can\'t yet imagine.',
+        closing: 'Your Word is my light, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Persecuted Church',
+        verse: 'Blessed are those who are persecuted because of righteousness, for theirs is the kingdom of heaven.',
+        verseRef: 'Matthew 5:10',
+        text: 'Lord Jesus, tonight I remember my brothers and sisters who face persecution for their faith — those in prison for owning a Bible, those beaten for attending church, those disowned by their families for choosing You.\n\nStrengthen them with supernatural courage. Provide for their needs. Protect their families. And use their suffering to multiply the gospel — let the blood of the martyrs be the seed of the church. I am humbled by their sacrifice, and I pray I would have the same courage if called upon.',
+        closing: 'Strengthen the persecuted church, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Tomorrow\'s Decisions',
+        verse: 'If any of you lacks wisdom, you should ask God, who gives generously to all without finding fault, and it will be given to you.',
+        verseRef: 'James 1:5',
+        text: 'Wise God, tomorrow I will face decisions — some small, some significant. I don\'t want to lean on my own understanding. I want Your wisdom guiding every choice.\n\nAs I sleep tonight, work in my subconscious mind. Bring clarity where there is confusion, conviction where there is doubt, and peace where there is anxiety. When I wake up, let Your wisdom meet me at the first decision of the day and stay with me through the last.',
+        closing: 'Guide my decisions, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer of Childlike Faith',
+        verse: 'Truly I tell you, unless you change and become like little children, you will never enter the kingdom of heaven.',
+        verseRef: 'Matthew 18:3',
+        text: 'Papa God, I\'ve made faith too complicated. Too theological. Too serious. Too grown up. Tonight I want to pray like a child — simply, honestly, trustingly.\n\nI love You, God. Thank You for today. I\'m sorry for the bad things I did. Please take care of tomorrow because I can\'t. And please be close to me tonight because the dark sometimes scares me. That\'s it. That\'s my prayer. Simple. Real. Childlike.',
+        closing: 'I trust You like a child trusts their father, Amen.'
+    },
+    {
+        title: 'A Prayer for Unfulfilled Promises',
+        verse: 'For no matter how many promises God has made, they are "Yes" in Christ.',
+        verseRef: '2 Corinthians 1:20',
+        text: 'Faithful God, there are promises You\'ve made — in Your Word and in my heart — that haven\'t come to pass yet. The waiting is hard. Some nights, doubt creeps in and whispers that You\'ve forgotten.\n\nBut You have never broken a promise. Not once. Every promise You make is yes and amen in Christ. Tonight I choose to believe that what You started, You will finish. What You promised, You will deliver. My job is to wait and trust. Your job is everything else.',
+        closing: 'I trust Your promises, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for the Addicted',
+        verse: 'So if the Son sets you free, you will be free indeed.',
+        verseRef: 'John 8:36',
+        text: 'Deliverer God, tonight I pray for those trapped in addiction — alcohol, drugs, pornography, gambling, food, screens, or whatever chain binds them. They feel powerless, ashamed, and alone.\n\nBut You are the God who breaks chains. No addiction is stronger than Your power. Meet them in their darkest moment tonight. Give them the courage to ask for help. Surround them with people who will love them without enabling them. Set them free — truly free — by the power of Your Son.',
+        closing: 'Break every chain, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Eternal Perspective',
+        verse: 'For our light and momentary troubles are achieving for us an eternal glory that far outweighs them all.',
+        verseRef: '2 Corinthians 4:17',
+        text: 'Eternal God, today\'s troubles felt anything but light and momentary. But You see what I can\'t — the eternal glory being woven through my suffering, the story being written through my struggles.\n\nGive me eternal perspective tonight. Help me to see today\'s problems through the lens of eternity. One day, every tear will be wiped away, every wrong will be made right, and every sacrifice will be rewarded. Until that day, I hold on — not to my circumstances, but to You.',
+        closing: 'I fix my eyes on eternity, in Jesus\' name, Amen.'
+    },
+    {
+        title: 'A Prayer for Unspoken Needs',
+        verse: 'Before they call I will answer; while they are still speaking I will hear.',
+        verseRef: 'Isaiah 65:24',
+        text: 'All-knowing God, There are needs in my heart tonight that I can\'t even put into words — burdens too deep for language, hopes too fragile to speak aloud, fears I\'m too ashamed to name.\n\nBut You hear what I cannot say. You know the prayer behind my prayer. You understand the groan of my spirit even when my lips are silent. So tonight, I simply sit in Your presence and let You read my heart. You already know. You already care. You are already working.',
+        closing: 'You know my heart, Lord. I rest in that tonight, Amen.'
+    },
+    {
+        title: 'A Prayer of Final Surrender',
+        verse: 'Into your hands I commit my spirit; deliver me, LORD, my faithful God.',
+        verseRef: 'Psalm 31:5',
+        text: 'My faithful God, this day is done. I cannot add one more minute to it. Whatever was accomplished or left undone, I release it all into Your hands.\n\nInto Your hands I commit my spirit — my worries, my hopes, my loved ones, my tomorrow, my very life. You are faithful. You are good. You are sovereign. And tonight, that is all I need to know.\n\nAs my eyes close, I am held. As my body rests, my soul rests in You. This day belongs to You now. And so do I.',
+        closing: 'Into Your hands I commit everything, Amen.'
+    },
+    {
+        title: 'A Prayer for Strength to Forgive',
+        verse: 'Bear with each other and forgive one another if any of you has a grievance against someone. Forgive as the Lord forgave you.',
+        verseRef: 'Colossians 3:13',
+        text: 'Merciful Father, tonight there is someone I need to forgive — and honestly, I don\'t want to. The hurt is real. The wound is deep. Forgiveness feels like letting them off the hook.\n\nBut You forgave me everything. The debt I owed was infinite, and You cancelled it at the cross. How can I withhold forgiveness from someone else when I\'ve been forgiven so much? I don\'t have the strength to do this on my own — but Your Spirit in me does. Tonight, I choose to begin the process of forgiveness. Not for their sake, but because unforgiveness is a prison, and You came to set me free.',
+        closing: 'I choose to forgive as You forgave me, in Jesus\' name, Amen.'
     }
 ];
 
 let prayerTimerInterval = null;
-let prayerTimerSeconds = 60;
+let prayerTimerSeconds = 120;
 let prayerTimerRunning = false;
 let currentPrayerTime = 'morning';
 
@@ -2724,7 +3284,7 @@ function togglePrayerTimer() {
 function resetPrayerTimer() {
     clearInterval(prayerTimerInterval);
     prayerTimerRunning = false;
-    prayerTimerSeconds = 60;
+    prayerTimerSeconds = 120;
     updateTimerDisplay();
 
     const btn = document.getElementById('prayer-timer-btn');
@@ -2739,7 +3299,7 @@ function updateTimerDisplay() {
 
     // Update circular progress
     const circumference = 2 * Math.PI * 54; // r=54
-    const progress = prayerTimerSeconds / 60;
+    const progress = prayerTimerSeconds / 120;
     const offset = circumference * (1 - progress);
     document.getElementById('prayer-timer-progress').style.strokeDashoffset = offset;
 }
