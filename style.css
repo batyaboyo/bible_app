@@ -88,6 +88,10 @@ body.dark-mode {
     box-sizing: border-box;
 }
 
+.hidden {
+    display: none !important;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -439,6 +443,47 @@ a:hover, a:focus {
     box-shadow: 0 0 0 3px rgba(44, 95, 135, 0.1);
 }
 
+/* Commentary Selector */
+.commentary-selector-container {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    flex-shrink: 0;
+}
+
+.commentary-label {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text-secondary);
+    white-space: nowrap;
+}
+
+.commentary-selector {
+    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-sm) var(--spacing-md);
+    font-size: 0.95rem;
+    font-family: var(--font-primary);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-bg-secondary);
+    color: var(--color-text);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    padding-right: 32px;
+    min-width: 180px;
+}
+
+.commentary-selector:hover,
+.commentary-selector:focus {
+    border-color: var(--color-primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(44, 95, 135, 0.1);
+}
+
 /* Version Badge in Header */
 .version-badge {
     display: inline-flex;
@@ -684,6 +729,38 @@ a:hover, a:focus {
 .chapter-title {
     margin: 0;
     color: var(--color-primary);
+    flex: 1;
+}
+
+.chapter-nav {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-left: auto;
+}
+
+.btn-chapter-nav {
+    background-color: var(--color-bg-tertiary);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-xs) var(--spacing-md);
+    color: var(--color-text);
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.btn-chapter-nav:hover:not(:disabled),
+.btn-chapter-nav:focus:not(:disabled) {
+    background-color: var(--color-primary);
+    color: white;
+    border-color: var(--color-primary);
+}
+
+.btn-chapter-nav:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
 }
 
 .verses-container {
@@ -761,6 +838,147 @@ a:hover, a:focus {
     background-color: var(--color-accent);
     border-color: var(--color-accent);
     color: white;
+}
+
+/* Section headings in chapter content */
+.section-heading {
+    font-family: var(--font-secondary);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 2px solid var(--color-primary-light, rgba(44, 95, 135, 0.2));
+}
+
+.section-heading:first-child {
+    margin-top: 0;
+}
+
+/* Hebrew subtitles (Psalms) */
+.hebrew-subtitle {
+    font-style: italic;
+    color: var(--color-text-secondary);
+    margin: var(--spacing-sm) 0;
+    padding-left: var(--spacing-md);
+    font-size: 0.95rem;
+}
+
+/* Verse line breaks */
+.verse-line-break {
+    height: var(--spacing-md);
+}
+
+/* Footnote references */
+.footnote-ref {
+    color: var(--color-primary);
+    cursor: help;
+    font-size: 0.7em;
+    font-weight: 700;
+    margin: 0 1px;
+    vertical-align: super;
+    transition: color var(--transition-fast);
+}
+
+.footnote-ref:hover {
+    color: var(--color-accent);
+}
+
+/* Poetry indentation */
+.poem-indent-1 {
+    display: block;
+    padding-left: var(--spacing-lg);
+}
+
+.poem-indent-2 {
+    display: block;
+    padding-left: calc(var(--spacing-lg) * 2);
+}
+
+/* Commentary Panel */
+.commentary-panel {
+    margin-top: var(--spacing-xl);
+    padding: var(--spacing-lg);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+}
+
+.commentary-header {
+    font-family: var(--font-secondary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-sm);
+    border-bottom: 2px solid var(--color-primary-light, rgba(44, 95, 135, 0.2));
+}
+
+.commentary-toggle {
+    margin-bottom: var(--spacing-md);
+    font-size: 0.85rem;
+}
+
+.commentary-intro {
+    margin-bottom: var(--spacing-lg);
+    padding: var(--spacing-md);
+    background: var(--color-bg);
+    border-radius: var(--radius-md);
+    font-size: 0.93rem;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.commentary-section {
+    margin-bottom: var(--spacing-md);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.commentary-section-header {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--color-bg);
+    color: var(--color-text);
+    -webkit-user-select: none;
+    user-select: none;
+    list-style: none;
+}
+
+.commentary-section-header::-webkit-details-marker {
+    display: none;
+}
+
+.commentary-section-header::before {
+    content: '\25B6';
+    display: inline-block;
+    margin-right: var(--spacing-sm);
+    font-size: 0.7em;
+    transition: transform var(--transition-fast);
+}
+
+.commentary-section[open] > .commentary-section-header::before {
+    transform: rotate(90deg);
+}
+
+.commentary-text {
+    padding: var(--spacing-md);
+    font-size: 0.93rem;
+    line-height: 1.8;
+    color: var(--color-text-secondary);
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.commentary-empty {
+    text-align: center;
+    color: var(--color-text-secondary);
+    padding: var(--spacing-lg);
+    font-style: italic;
 }
 
 /* ========================================
@@ -1066,11 +1284,13 @@ a:hover, a:focus {
         align-items: stretch;
     }
 
-    .version-selector-container {
+    .version-selector-container,
+    .commentary-selector-container {
         justify-content: center;
     }
 
-    .version-selector {
+    .version-selector,
+    .commentary-selector {
         min-width: 0;
         flex: 1;
     }
@@ -1126,7 +1346,11 @@ a:hover, a:focus {
     .nav,
     .theme-toggle,
     .search-container,
+    .version-selector-container,
+    .commentary-selector-container,
+    .version-badge,
     .verse-actions,
+    .chapter-nav,
     .btn {
         display: none !important;
     }

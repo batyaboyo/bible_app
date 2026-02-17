@@ -64,7 +64,7 @@
                             <div class="spinner"></div>
                             <p>Loading today's verse...</p>
                         </div>
-                        <div class="verse-text" style="display: none;">
+                        <div class="verse-text hidden">
                             <blockquote class="verse-quote"></blockquote>
                             <cite class="verse-reference"></cite>
                         </div>
@@ -96,7 +96,12 @@
                     <div class="feature-card">
                         <div class="feature-icon">📜</div>
                         <h3 class="feature-title">Multiple Versions</h3>
-                        <p class="feature-description">Read in KJV, WEB, BBE, OEB, and more Bible translations.</p>
+                        <p class="feature-description">Read in BSB, WEB, BBE, and many more Bible translations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📝</div>
+                        <h3 class="feature-title">Commentaries</h3>
+                        <p class="feature-description">Study with Matthew Henry, John Gill, and other classic commentaries.</p>
                     </div>
                     <div class="feature-card">
                         <div class="feature-icon">🌓</div>
@@ -119,6 +124,12 @@
                                 <!-- Populated by JS -->
                             </select>
                         </div>
+                        <div class="commentary-selector-container">
+                            <label for="commentary-selector" class="commentary-label">Commentary:</label>
+                            <select id="commentary-selector" class="commentary-selector" aria-label="Select Bible commentary">
+                                <!-- Populated by JS -->
+                            </select>
+                        </div>
                         <div class="search-container">
                             <input 
                                 type="search" 
@@ -126,7 +137,7 @@
                                 placeholder="Search verses or enter reference (e.g., John 3:16)..."
                                 aria-label="Search Bible verses"
                             >
-                            <div class="search-results" style="display: none;"></div>
+                            <div class="search-results hidden"></div>
                         </div>
                     </div>
                 </div>
@@ -154,24 +165,31 @@
                         </div>
 
                         <!-- Chapter Selection -->
-                        <div class="chapter-selection" id="chapter-selection" style="display: none;">
+                        <div class="chapter-selection" id="chapter-selection" hidden>
                             <h3 class="selected-book-title"></h3>
                             <div class="chapter-grid"></div>
                         </div>
 
                         <!-- Verse Display -->
-                        <div class="verse-display" id="verse-display" style="display: none;">
+                        <div class="verse-display" id="verse-display" hidden>
                             <div class="verse-header">
                                 <button class="btn-back" aria-label="Back to chapter selection">
                                     ← Back
                                 </button>
                                 <h3 class="chapter-title"></h3>
+                                <div class="chapter-nav">
+                                    <button class="btn-chapter-nav" id="prev-chapter" aria-label="Previous chapter" disabled>← Prev</button>
+                                    <button class="btn-chapter-nav" id="next-chapter" aria-label="Next chapter">Next →</button>
+                                </div>
                             </div>
                             <div class="verse-loader">
                                 <div class="spinner"></div>
                                 <p>Loading chapter...</p>
                             </div>
                             <div class="verses-container"></div>
+                            <div class="commentary-panel" id="commentary-panel" hidden>
+                                <!-- Populated by JS -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -210,7 +228,9 @@
                         <h3>Features</h3>
                         <ul class="feature-list">
                             <li>📖 Complete Bible text with all 66 books</li>
-                            <li>🔍 Powerful search functionality</li>
+                            <li>� Multiple Bible translations (BSB, WEB, BBE, and more)</li>
+                            <li>📝 Classic commentaries (Matthew Henry, John Gill, etc.)</li>
+                            <li>�🔍 Powerful search functionality</li>
                             <li>🔖 Bookmark and save your favorite verses</li>
                             <li>📱 Fully responsive design for all devices</li>
                             <li>🌓 Dark and light mode for comfortable reading</li>
@@ -222,7 +242,7 @@
 
                     <article class="about-section">
                         <h3>Data Source</h3>
-                        <p>All Bible text is provided by the <a href="https://bible-api.com" target="_blank" rel="noopener noreferrer">Bible API</a>, a free and open-source API that serves multiple Bible translations including KJV, WEB, BBE, OEB, and more. We are grateful for their service in making scripture freely accessible.</p>
+                        <p>All Bible text and commentaries are provided by the <a href="https://bible.helloao.org" target="_blank" rel="noopener noreferrer">HelloAO Bible API</a>, a free and open-source API serving hundreds of Bible translations in many languages, along with classic commentaries. We are grateful for their service in making scripture freely accessible.</p>
                     </article>
 
                     <article class="about-section">
@@ -262,10 +282,10 @@
         <div class="container">
             <div class="footer-content">
                 <p class="footer-text">
-                    &copy; 2024 The Word. All rights reserved.
+                    &copy; <span id="copyright-year">2024</span> The Word. All rights reserved.
                 </p>
                 <p class="footer-attribution">
-                    Bible text provided by <a href="https://bible-api.com" target="_blank" rel="noopener noreferrer">Bible API</a>
+                    Bible text provided by <a href="https://bible.helloao.org" target="_blank" rel="noopener noreferrer">HelloAO Bible API</a>
                 </p>
             </div>
         </div>
