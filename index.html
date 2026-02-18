@@ -33,6 +33,7 @@
                         <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
                         <li><a href="#" class="nav-link" data-page="bible">Bible</a></li>
                         <li><a href="#" class="nav-link" data-page="bookmarks">Bookmarks</a></li>
+                        <li><a href="#" class="nav-link" data-page="progress">Progress</a></li>
                         <li><a href="#" class="nav-link" data-page="stories">Stories</a></li>
                         <li><a href="#" class="nav-link" data-page="prayer">Prayer</a></li>
                         <li><a href="#" class="nav-link" data-page="quiz">Quiz</a></li>
@@ -123,6 +124,26 @@
                         <div class="feature-icon">🌈</div>
                         <h3 class="feature-title">Bible Stories</h3>
                         <p class="feature-description">Kid-friendly summaries of the most important Bible stories.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">🎨</div>
+                        <h3 class="feature-title">Highlights & Notes</h3>
+                        <p class="feature-description">Highlight verses with colors and add personal study notes.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📊</div>
+                        <h3 class="feature-title">Reading Progress</h3>
+                        <p class="feature-description">Track your Bible reading journey and see how far you've come.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">⚖️</div>
+                        <h3 class="feature-title">Compare Translations</h3>
+                        <p class="feature-description">View verses side by side across different Bible translations.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">📂</div>
+                        <h3 class="feature-title">Bookmark Collections</h3>
+                        <p class="feature-description">Organize your bookmarks into custom folders and categories.</p>
                     </div>
                 </div>
             </div>
@@ -300,6 +321,15 @@
         <section id="bookmarks" class="page">
             <div class="container">
                 <h2 class="page-title">My Bookmarks</h2>
+
+                <!-- Collection Filter -->
+                <div class="collections-bar" id="collections-bar">
+                    <div class="collections-tabs" id="collections-tabs">
+                        <button class="collection-tab active" data-collection="all">All</button>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" id="manage-collections-btn" title="Manage collections">📂 Manage</button>
+                </div>
+
                 <div class="bookmarks-container">
                     <div class="empty-state" id="bookmarks-empty">
                         <div class="empty-icon">🔖</div>
@@ -310,6 +340,49 @@
                         </button>
                     </div>
                     <div class="bookmarks-list" id="bookmarks-list"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reading Progress Page -->
+        <section id="progress" class="page">
+            <div class="container">
+                <h2 class="page-title">Reading Progress</h2>
+                <p class="progress-subtitle">Track your journey through God's Word. Chapters are marked as read when you open them.</p>
+
+                <div class="progress-overview" id="progress-overview">
+                    <div class="progress-stat-card">
+                        <div class="progress-stat-value" id="progress-total-percent">0%</div>
+                        <div class="progress-stat-label">Overall</div>
+                        <div class="progress-bar-outer">
+                            <div class="progress-bar-inner" id="progress-total-bar"></div>
+                        </div>
+                    </div>
+                    <div class="progress-stat-card">
+                        <div class="progress-stat-value" id="progress-ot-percent">0%</div>
+                        <div class="progress-stat-label">Old Testament</div>
+                        <div class="progress-bar-outer">
+                            <div class="progress-bar-inner" id="progress-ot-bar"></div>
+                        </div>
+                    </div>
+                    <div class="progress-stat-card">
+                        <div class="progress-stat-value" id="progress-nt-percent">0%</div>
+                        <div class="progress-stat-label">New Testament</div>
+                        <div class="progress-bar-outer">
+                            <div class="progress-bar-inner" id="progress-nt-bar"></div>
+                        </div>
+                    </div>
+                    <div class="progress-stat-card">
+                        <div class="progress-stat-value" id="progress-chapters-read">0</div>
+                        <div class="progress-stat-label">Chapters Read</div>
+                    </div>
+                </div>
+
+                <div class="progress-books" id="progress-books">
+                    <h3 class="progress-section-title">Old Testament</h3>
+                    <div class="progress-books-grid" id="progress-ot-books"></div>
+                    <h3 class="progress-section-title">New Testament</h3>
+                    <div class="progress-books-grid" id="progress-nt-books"></div>
                 </div>
             </div>
         </section>
@@ -391,10 +464,14 @@
                         <h3>Features</h3>
                         <ul class="feature-list">
                             <li>📖 Complete Bible text with all 66 books</li>
-                            <li>� Multiple Bible translations (BSB, WEB, BBE, and more)</li>
+                            <li>🌐 Multiple Bible translations (BSB, WEB, BBE, and more)</li>
                             <li>📝 Classic commentaries (Matthew Henry, John Gill, etc.)</li>
-                            <li>�🔍 Powerful search functionality</li>
+                            <li>🔍 Powerful search functionality</li>
                             <li>🔖 Bookmark and save your favorite verses</li>
+                            <li>📂 Organize bookmarks into custom collections</li>
+                            <li>🎨 Highlight verses with colors and add study notes</li>
+                            <li>📊 Track your Bible reading progress</li>
+                            <li>⚖️ Compare verses across translations side-by-side</li>
                             <li>📱 Fully responsive design for all devices</li>
                             <li>🌓 Dark and light mode for comfortable reading</li>
                             <li>📋 Copy verses to clipboard</li>
@@ -439,6 +516,73 @@
             </div>
         </section>
     </main>
+
+    <!-- Highlight & Notes Popup -->
+    <div class="modal-overlay" id="highlight-modal" hidden>
+        <div class="modal-content highlight-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="highlight-modal-title">Highlight & Note</h3>
+                <button class="modal-close" id="highlight-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p class="highlight-verse-ref" id="highlight-verse-ref"></p>
+                <div class="highlight-colors">
+                    <span class="highlight-color-label">Highlight Color:</span>
+                    <div class="highlight-color-options" id="highlight-color-options">
+                        <button class="highlight-color-btn" data-color="none" title="No highlight">✕</button>
+                        <button class="highlight-color-btn hl-yellow" data-color="yellow" title="Yellow"></button>
+                        <button class="highlight-color-btn hl-green" data-color="green" title="Green"></button>
+                        <button class="highlight-color-btn hl-blue" data-color="blue" title="Blue"></button>
+                        <button class="highlight-color-btn hl-pink" data-color="pink" title="Pink"></button>
+                        <button class="highlight-color-btn hl-orange" data-color="orange" title="Orange"></button>
+                        <button class="highlight-color-btn hl-purple" data-color="purple" title="Purple"></button>
+                    </div>
+                </div>
+                <div class="highlight-note-section">
+                    <label for="highlight-note-input" class="highlight-note-label">Personal Note:</label>
+                    <textarea id="highlight-note-input" class="highlight-note-input" rows="4" placeholder="Write your thoughts, reflections, or study notes here..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="highlight-cancel-btn">Cancel</button>
+                <button class="btn btn-primary" id="highlight-save-btn">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Translation Comparison Modal -->
+    <div class="modal-overlay" id="compare-modal" hidden>
+        <div class="modal-content compare-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="compare-modal-title">Compare Translations</h3>
+                <button class="modal-close" id="compare-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body" id="compare-modal-body">
+                <div class="compare-loader">
+                    <div class="spinner"></div>
+                    <p>Loading translations...</p>
+                </div>
+                <div class="compare-results" id="compare-results"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collections Manager Modal -->
+    <div class="modal-overlay" id="collections-modal" hidden>
+        <div class="modal-content collections-modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Manage Collections</h3>
+                <button class="modal-close" id="collections-modal-close" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="collection-add-form">
+                    <input type="text" id="new-collection-input" class="collection-input" placeholder="New collection name..." maxlength="30">
+                    <button class="btn btn-primary btn-sm" id="add-collection-btn">Add</button>
+                </div>
+                <div class="collections-list" id="collections-list"></div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">

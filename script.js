@@ -14,7 +14,11 @@ const APP_STATE = {
     darkMode: false,
     dailyVerse: null,
     searchTimeout: null,
-    toastTimeout: null
+    toastTimeout: null,
+    highlights: {},        // { "John 3:16": { color: "yellow", note: "..." } }
+    readingProgress: {},   // { "GEN": [1,2,3], "MAT": [1,5] }
+    collections: ['Favorites', 'Promises', 'Comfort'],  // default collections
+    activeCollection: 'all'
 };
 
 // Dynamically loaded data
@@ -126,6 +130,11 @@ async function initializeApp() {
     // Load content
     loadDailyVerse();
     renderBookmarks();
+
+    // Initialize new features
+    initializeHighlightModal();
+    initializeCompareModal();
+    initializeCollections();
 }
 
 // ========================================
@@ -299,6 +308,24 @@ function loadState() {
         if (savedDailyVerse && savedDate === today && savedVerseVersion === APP_STATE.currentVersion) {
             APP_STATE.dailyVerse = JSON.parse(savedDailyVerse);
         }
+
+        // Load highlights & notes
+        const savedHighlights = localStorage.getItem('verseHighlights');
+        if (savedHighlights) {
+            APP_STATE.highlights = JSON.parse(savedHighlights);
+        }
+
+        // Load reading progress
+        const savedProgress = localStorage.getItem('readingProgress');
+        if (savedProgress) {
+            APP_STATE.readingProgress = JSON.parse(savedProgress);
+        }
+
+        // Load bookmark collections
+        const savedCollections = localStorage.getItem('bookmarkCollections');
+        if (savedCollections) {
+            APP_STATE.collections = JSON.parse(savedCollections);
+        }
     } catch (error) {
         console.error('Error loading saved state:', error);
     }
@@ -400,6 +427,17 @@ function navigateTo(page) {
     // Initialize prayer when navigating to it
     if (page === 'prayer') {
         initializePrayer();
+    }
+
+    // Initialize progress when navigating to it
+    if (page === 'progress') {
+        renderReadingProgress();
+    }
+
+    // Render bookmarks with collections when navigating
+    if (page === 'bookmarks') {
+        renderCollectionTabs();
+        renderBookmarks();
     }
 }
 
@@ -658,6 +696,9 @@ async function loadChapter(book, chapter) {
 
         loader.style.display = 'none';
 
+        // Track reading progress
+        markChapterRead(book.id, chapter);
+
         // Load commentary if selected
         if (APP_STATE.currentCommentary) {
             loadCommentaryForChapter(book.id, chapter);
@@ -775,6 +816,18 @@ function renderChapterContent(content, footnotes, bookName, chapter) {
             const reference = `${bookName} ${chapter}:${item.number}`;
             const isBookmarked = APP_STATE.bookmarks.some(b => b.reference === reference);
 
+            const highlightBtn = document.createElement('button');
+            highlightBtn.className = 'verse-action-btn';
+            highlightBtn.innerHTML = '🎨';
+            highlightBtn.setAttribute('aria-label', 'Highlight & note');
+            highlightBtn.onclick = () => openHighlightModal(reference, plainText);
+
+            const compareBtn = document.createElement('button');
+            compareBtn.className = 'verse-action-btn';
+            compareBtn.innerHTML = '⚖️';
+            compareBtn.setAttribute('aria-label', 'Compare translations');
+            compareBtn.onclick = () => openCompareModal(bookName, chapter, item.number);
+
             const bookmarkBtn = document.createElement('button');
             bookmarkBtn.className = `verse-action-btn ${isBookmarked ? 'bookmarked' : ''}`;
             bookmarkBtn.innerHTML = isBookmarked ? '★' : '☆';
@@ -793,6 +846,8 @@ function renderChapterContent(content, footnotes, bookName, chapter) {
             shareBtn.setAttribute('aria-label', 'Share verse');
             shareBtn.onclick = () => shareVerse(reference, plainText);
 
+            verseActions.appendChild(highlightBtn);
+            verseActions.appendChild(compareBtn);
             verseActions.appendChild(bookmarkBtn);
             verseActions.appendChild(copyBtn);
             verseActions.appendChild(shareBtn);
@@ -800,6 +855,9 @@ function renderChapterContent(content, footnotes, bookName, chapter) {
             verseItem.appendChild(verseNumber);
             verseItem.appendChild(verseText);
             verseItem.appendChild(verseActions);
+
+            // Apply saved highlight and note
+            applyVerseHighlight(verseItem, reference, verseText);
 
             versesContainer.appendChild(verseItem);
         }
@@ -1210,10 +1268,22 @@ function renderBookmarks() {
         return;
     }
 
-    emptyState.style.display = 'none';
+    // Filter by active collection
+    let filtered = APP_STATE.bookmarks;
+    if (APP_STATE.activeCollection !== 'all') {
+        filtered = filtered.filter(b => (b.collection || '') === APP_STATE.activeCollection);
+    }
+
+    if (filtered.length === 0 && APP_STATE.activeCollection !== 'all') {
+        emptyState.style.display = 'none';
+        bookmarksList.innerHTML = '<div class="empty-state"><div class="empty-icon">📂</div><h3>No Bookmarks in this Collection</h3><p>Move bookmarks here using the collection selector on each card.</p></div>';
+        return;
+    }
+
+    emptyState.style.display = filtered.length === 0 ? 'block' : 'none';
     bookmarksList.innerHTML = '';
 
-    const sortedBookmarks = [...APP_STATE.bookmarks].sort((a, b) =>
+    const sortedBookmarks = [...filtered].sort((a, b) =>
         new Date(b.bookmarkedAt) - new Date(a.bookmarkedAt)
     );
 
@@ -1234,6 +1304,14 @@ function createBookmarkCard(bookmark) {
     reference.className = 'bookmark-reference';
     reference.textContent = bookmark.reference;
 
+    // Show collection badge if assigned
+    if (bookmark.collection) {
+        const badge = document.createElement('span');
+        badge.className = 'bookmark-collection-badge';
+        badge.textContent = bookmark.collection;
+        reference.appendChild(badge);
+    }
+
     const date = document.createElement('span');
     date.className = 'bookmark-date';
     date.textContent = formatDate(bookmark.bookmarkedAt);
@@ -1247,6 +1325,25 @@ function createBookmarkCard(bookmark) {
 
     const actions = document.createElement('div');
     actions.className = 'bookmark-actions';
+
+    // Collection selector
+    const collectionSelect = document.createElement('select');
+    collectionSelect.className = 'bookmark-move-select';
+    collectionSelect.title = 'Move to collection';
+    const noneOpt = document.createElement('option');
+    noneOpt.value = '';
+    noneOpt.textContent = 'No collection';
+    collectionSelect.appendChild(noneOpt);
+    APP_STATE.collections.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c;
+        opt.textContent = c;
+        if (bookmark.collection === c) opt.selected = true;
+        collectionSelect.appendChild(opt);
+    });
+    collectionSelect.onchange = () => {
+        moveBookmarkToCollection(bookmark.reference, collectionSelect.value);
+    };
 
     const copyBtn = document.createElement('button');
     copyBtn.className = 'btn btn-secondary';
@@ -1263,6 +1360,7 @@ function createBookmarkCard(bookmark) {
     removeBtn.textContent = 'Remove';
     removeBtn.onclick = () => removeBookmark(bookmark.reference);
 
+    actions.appendChild(collectionSelect);
     actions.appendChild(copyBtn);
     actions.appendChild(shareBtn);
     actions.appendChild(removeBtn);
@@ -3390,6 +3488,10 @@ function initializeKeyboardShortcuts() {
         if (e.key === 'Escape') {
             hideSearchResults();
 
+            // Close any open modals
+            const modals = document.querySelectorAll('.modal-overlay:not([hidden])');
+            modals.forEach(m => m.hidden = true);
+
             const nav = document.querySelector('.nav');
             const menuToggle = document.querySelector('.mobile-menu-toggle');
             if (nav.classList.contains('mobile-active')) {
@@ -3398,4 +3500,503 @@ function initializeKeyboardShortcuts() {
             }
         }
     });
+}
+
+// ========================================
+// Verse Highlights & Notes
+// ========================================
+
+let highlightModalRef = '';
+let highlightModalColor = 'none';
+let highlightModalNote = '';
+
+function initializeHighlightModal() {
+    const modal = document.getElementById('highlight-modal');
+    const closeBtn = document.getElementById('highlight-modal-close');
+    const cancelBtn = document.getElementById('highlight-cancel-btn');
+    const saveBtn = document.getElementById('highlight-save-btn');
+    const colorBtns = document.querySelectorAll('.highlight-color-btn');
+
+    closeBtn.addEventListener('click', () => modal.hidden = true);
+    cancelBtn.addEventListener('click', () => modal.hidden = true);
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.hidden = true;
+    });
+
+    colorBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            colorBtns.forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+            highlightModalColor = btn.dataset.color;
+        });
+    });
+
+    saveBtn.addEventListener('click', () => {
+        const note = document.getElementById('highlight-note-input').value.trim();
+        saveHighlight(highlightModalRef, highlightModalColor, note);
+        modal.hidden = true;
+        showToast('Highlight saved! 🎨');
+    });
+}
+
+function openHighlightModal(reference, plainText) {
+    highlightModalRef = reference;
+    const existing = APP_STATE.highlights[reference] || {};
+    highlightModalColor = existing.color || 'none';
+    highlightModalNote = existing.note || '';
+
+    document.getElementById('highlight-verse-ref').textContent = reference;
+    document.getElementById('highlight-note-input').value = highlightModalNote;
+
+    // Set selected color
+    const colorBtns = document.querySelectorAll('.highlight-color-btn');
+    colorBtns.forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.color === highlightModalColor);
+    });
+
+    document.getElementById('highlight-modal').hidden = false;
+}
+
+function saveHighlight(reference, color, note) {
+    if (color === 'none' && !note) {
+        delete APP_STATE.highlights[reference];
+    } else {
+        APP_STATE.highlights[reference] = { color: color === 'none' ? '' : color, note };
+    }
+
+    localStorage.setItem('verseHighlights', JSON.stringify(APP_STATE.highlights));
+
+    // Re-apply to visible verse if on screen
+    const verseItems = document.querySelectorAll('.verse-item');
+    verseItems.forEach(item => {
+        const verseNum = item.dataset.verse;
+        const chapterTitle = document.querySelector('.chapter-title');
+        if (chapterTitle) {
+            const ref = `${chapterTitle.textContent}:${verseNum}`;
+            if (ref === reference) {
+                const verseText = item.querySelector('.verse-text');
+                applyVerseHighlight(item, reference, verseText);
+            }
+        }
+    });
+}
+
+function applyVerseHighlight(verseItem, reference, verseTextEl) {
+    const hl = APP_STATE.highlights[reference];
+
+    // Remove existing highlight & note indicator
+    verseItem.removeAttribute('data-highlight');
+    const existingNote = verseItem.querySelector('.verse-note-preview');
+    if (existingNote) existingNote.remove();
+    const existingIndicator = verseTextEl.querySelector('.verse-note-indicator');
+    if (existingIndicator) existingIndicator.remove();
+
+    if (!hl) return;
+
+    if (hl.color) {
+        verseItem.setAttribute('data-highlight', hl.color);
+    }
+
+    if (hl.note) {
+        // Add note indicator
+        const indicator = document.createElement('span');
+        indicator.className = 'verse-note-indicator';
+        indicator.textContent = '📝';
+        indicator.title = 'Click to view note';
+        indicator.onclick = (e) => {
+            e.stopPropagation();
+            openHighlightModal(reference, '');
+        };
+        verseTextEl.appendChild(indicator);
+
+        // Add note preview
+        const preview = document.createElement('span');
+        preview.className = 'verse-note-preview';
+        preview.textContent = hl.note.length > 120 ? hl.note.substring(0, 120) + '...' : hl.note;
+        verseItem.appendChild(preview);
+    }
+}
+
+// ========================================
+// Translation Comparison
+// ========================================
+
+const COMPARE_VERSIONS = ['BSB', 'ENGWEBP', 'eng_bbe', 'eng_web'];
+
+function initializeCompareModal() {
+    const modal = document.getElementById('compare-modal');
+    const closeBtn = document.getElementById('compare-modal-close');
+
+    closeBtn.addEventListener('click', () => modal.hidden = true);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.hidden = true;
+    });
+}
+
+async function openCompareModal(bookName, chapter, verseNum) {
+    const modal = document.getElementById('compare-modal');
+    const results = document.getElementById('compare-results');
+    const loader = modal.querySelector('.compare-loader');
+    const title = document.getElementById('compare-modal-title');
+
+    title.textContent = `Compare: ${bookName} ${chapter}:${verseNum}`;
+    results.innerHTML = '';
+    loader.style.display = 'flex';
+    modal.hidden = false;
+
+    // Get bookId
+    const bookId = BOOK_NAME_TO_ID[bookName] || bookName;
+
+    // Get versions to compare (remove duplicates, include current)
+    const versionsToLoad = [...new Set([APP_STATE.currentVersion, ...COMPARE_VERSIONS])];
+
+    const translationNames = {};
+    TRANSLATIONS.forEach(t => {
+        translationNames[t.id] = t.name || t.shortName || t.id;
+    });
+
+    let loadedCount = 0;
+
+    for (const version of versionsToLoad) {
+        try {
+            const data = await fetchChapterAPI(version, bookId, chapter);
+            if (data && data.chapter && data.chapter.content) {
+                const verseText = extractVerseTextFromContent(data.chapter.content, verseNum);
+                if (verseText) {
+                    const item = document.createElement('div');
+                    item.className = 'compare-item';
+
+                    const isCurrent = version === APP_STATE.currentVersion;
+                    item.innerHTML = `
+                        <div class="compare-item-header">
+                            <span class="compare-version-name">${escapeHTML(translationNames[version] || version)}</span>
+                            ${isCurrent ? '<span class="compare-version-badge">Current</span>' : ''}
+                        </div>
+                        <p class="compare-verse-text">${escapeHTML(verseText)}</p>
+                    `;
+                    results.appendChild(item);
+                    loadedCount++;
+                }
+            }
+        } catch (e) {
+            // Skip failed translations silently
+        }
+    }
+
+    loader.style.display = 'none';
+
+    if (loadedCount === 0) {
+        results.innerHTML = '<p>Unable to load translations for this verse. Please try again.</p>';
+    }
+}
+
+function extractVerseTextFromContent(content, verseNum) {
+    for (const item of content) {
+        if (item.type === 'verse' && String(item.number) === String(verseNum)) {
+            if (Array.isArray(item.content)) {
+                return item.content
+                    .map(part => {
+                        if (typeof part === 'string') return part;
+                        if (part && part.text) return part.text;
+                        return '';
+                    })
+                    .join('')
+                    .trim();
+            }
+            return '';
+        }
+    }
+    return '';
+}
+
+// ========================================
+// Reading Progress Tracker
+// ========================================
+
+function markChapterRead(bookId, chapter) {
+    if (!APP_STATE.readingProgress[bookId]) {
+        APP_STATE.readingProgress[bookId] = [];
+    }
+
+    if (!APP_STATE.readingProgress[bookId].includes(chapter)) {
+        APP_STATE.readingProgress[bookId].push(chapter);
+        APP_STATE.readingProgress[bookId].sort((a, b) => a - b);
+        localStorage.setItem('readingProgress', JSON.stringify(APP_STATE.readingProgress));
+    }
+}
+
+function renderReadingProgress() {
+    const allBooks = [...BIBLE_BOOKS.oldTestament, ...BIBLE_BOOKS.newTestament];
+
+    if (allBooks.length === 0) {
+        // Books not loaded yet
+        document.getElementById('progress-books').innerHTML = '<p>Loading book data...</p>';
+        return;
+    }
+
+    // Calculate stats
+    let totalChapters = 0;
+    let totalRead = 0;
+    let otChapters = 0;
+    let otRead = 0;
+    let ntChapters = 0;
+    let ntRead = 0;
+
+    BIBLE_BOOKS.oldTestament.forEach(book => {
+        otChapters += book.chapters;
+        totalChapters += book.chapters;
+        const read = (APP_STATE.readingProgress[book.id] || []).length;
+        otRead += read;
+        totalRead += read;
+    });
+
+    BIBLE_BOOKS.newTestament.forEach(book => {
+        ntChapters += book.chapters;
+        totalChapters += book.chapters;
+        const read = (APP_STATE.readingProgress[book.id] || []).length;
+        ntRead += read;
+        totalRead += read;
+    });
+
+    const totalPercent = totalChapters > 0 ? Math.round((totalRead / totalChapters) * 100) : 0;
+    const otPercent = otChapters > 0 ? Math.round((otRead / otChapters) * 100) : 0;
+    const ntPercent = ntChapters > 0 ? Math.round((ntRead / ntChapters) * 100) : 0;
+
+    document.getElementById('progress-total-percent').textContent = `${totalPercent}%`;
+    document.getElementById('progress-total-bar').style.width = `${totalPercent}%`;
+    document.getElementById('progress-ot-percent').textContent = `${otPercent}%`;
+    document.getElementById('progress-ot-bar').style.width = `${otPercent}%`;
+    document.getElementById('progress-nt-percent').textContent = `${ntPercent}%`;
+    document.getElementById('progress-nt-bar').style.width = `${ntPercent}%`;
+    document.getElementById('progress-chapters-read').textContent = `${totalRead} / ${totalChapters}`;
+
+    // Render book grids
+    renderProgressGrid('progress-ot-books', BIBLE_BOOKS.oldTestament);
+    renderProgressGrid('progress-nt-books', BIBLE_BOOKS.newTestament);
+}
+
+function renderProgressGrid(containerId, books) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+
+    books.forEach(book => {
+        const readChapters = APP_STATE.readingProgress[book.id] || [];
+        const readCount = readChapters.length;
+        const percent = book.chapters > 0 ? Math.round((readCount / book.chapters) * 100) : 0;
+        const isComplete = readCount === book.chapters;
+
+        const card = document.createElement('div');
+        card.className = 'progress-book-card';
+
+        card.innerHTML = `
+            <div class="progress-book-header">
+                <span class="progress-book-name">${escapeHTML(book.name)}</span>
+                <span class="progress-book-fraction">${readCount}/${book.chapters}</span>
+            </div>
+            <div class="progress-book-bar">
+                <div class="progress-book-bar-fill ${isComplete ? 'complete' : ''}" style="width: ${percent}%"></div>
+            </div>
+            <div class="progress-chapters-dots"></div>
+        `;
+
+        const dotsContainer = card.querySelector('.progress-chapters-dots');
+        for (let ch = 1; ch <= book.chapters; ch++) {
+            const dot = document.createElement('span');
+            dot.className = 'progress-chapter-dot';
+            dot.title = `${book.name} ${ch}`;
+            if (readChapters.includes(ch)) {
+                dot.classList.add('read');
+                if (isComplete) dot.classList.add('complete-book');
+            }
+            dot.onclick = () => {
+                navigateTo('bible');
+                // Find book and load chapter
+                const allBooks = [...BIBLE_BOOKS.oldTestament, ...BIBLE_BOOKS.newTestament];
+                const targetBook = allBooks.find(b => b.id === book.id);
+                if (targetBook) {
+                    selectBook(targetBook);
+                    setTimeout(() => loadChapter(targetBook, ch), 100);
+                }
+            };
+            dotsContainer.appendChild(dot);
+        }
+
+        container.appendChild(card);
+    });
+}
+
+// ========================================
+// Bookmark Collections
+// ========================================
+
+function initializeCollections() {
+    const manageBtn = document.getElementById('manage-collections-btn');
+    if (manageBtn) {
+        manageBtn.addEventListener('click', openCollectionsModal);
+    }
+
+    const modalClose = document.getElementById('collections-modal-close');
+    if (modalClose) {
+        modalClose.addEventListener('click', () => {
+            document.getElementById('collections-modal').hidden = true;
+        });
+    }
+
+    const modal = document.getElementById('collections-modal');
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.hidden = true;
+        });
+    }
+
+    const addBtn = document.getElementById('add-collection-btn');
+    if (addBtn) {
+        addBtn.addEventListener('click', addCollection);
+    }
+
+    const input = document.getElementById('new-collection-input');
+    if (input) {
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') addCollection();
+        });
+    }
+
+    renderCollectionTabs();
+}
+
+function renderCollectionTabs() {
+    const tabsContainer = document.getElementById('collections-tabs');
+    if (!tabsContainer) return;
+
+    tabsContainer.innerHTML = '';
+
+    const allTab = document.createElement('button');
+    allTab.className = `collection-tab ${APP_STATE.activeCollection === 'all' ? 'active' : ''}`;
+    allTab.dataset.collection = 'all';
+    allTab.textContent = 'All';
+    allTab.onclick = () => {
+        APP_STATE.activeCollection = 'all';
+        renderCollectionTabs();
+        renderBookmarks();
+    };
+    tabsContainer.appendChild(allTab);
+
+    // Uncollected tab
+    const uncollectedTab = document.createElement('button');
+    uncollectedTab.className = `collection-tab ${APP_STATE.activeCollection === '' ? 'active' : ''}`;
+    uncollectedTab.dataset.collection = '';
+    uncollectedTab.textContent = 'Uncategorized';
+    uncollectedTab.onclick = () => {
+        APP_STATE.activeCollection = '';
+        renderCollectionTabs();
+        renderBookmarks();
+    };
+    tabsContainer.appendChild(uncollectedTab);
+
+    APP_STATE.collections.forEach(c => {
+        const tab = document.createElement('button');
+        tab.className = `collection-tab ${APP_STATE.activeCollection === c ? 'active' : ''}`;
+        tab.dataset.collection = c;
+        tab.textContent = c;
+        tab.onclick = () => {
+            APP_STATE.activeCollection = c;
+            renderCollectionTabs();
+            renderBookmarks();
+        };
+        tabsContainer.appendChild(tab);
+    });
+}
+
+function openCollectionsModal() {
+    document.getElementById('collections-modal').hidden = false;
+    document.getElementById('new-collection-input').value = '';
+    renderCollectionsList();
+}
+
+function renderCollectionsList() {
+    const list = document.getElementById('collections-list');
+    list.innerHTML = '';
+
+    APP_STATE.collections.forEach(c => {
+        const count = APP_STATE.bookmarks.filter(b => b.collection === c).length;
+
+        const item = document.createElement('div');
+        item.className = 'collection-list-item';
+        item.innerHTML = `
+            <span class="collection-list-item-name">${escapeHTML(c)}</span>
+            <span class="collection-list-item-count">${count} bookmark${count !== 1 ? 's' : ''}</span>
+        `;
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'collection-delete-btn';
+        deleteBtn.innerHTML = '🗑️';
+        deleteBtn.title = `Delete "${c}"`;
+        deleteBtn.onclick = () => deleteCollection(c);
+        item.appendChild(deleteBtn);
+
+        list.appendChild(item);
+    });
+
+    if (APP_STATE.collections.length === 0) {
+        list.innerHTML = '<p style="color: var(--color-text-muted); text-align: center; padding: var(--spacing-md);">No collections yet. Create one above.</p>';
+    }
+}
+
+function addCollection() {
+    const input = document.getElementById('new-collection-input');
+    const name = input.value.trim();
+
+    if (!name) return;
+    if (APP_STATE.collections.includes(name)) {
+        showToast('Collection already exists!');
+        return;
+    }
+
+    APP_STATE.collections.push(name);
+    saveCollections();
+    renderCollectionsList();
+    renderCollectionTabs();
+    input.value = '';
+    showToast(`Collection "${name}" created! 📂`);
+}
+
+function deleteCollection(name) {
+    APP_STATE.collections = APP_STATE.collections.filter(c => c !== name);
+
+    // Remove collection from bookmarks that had it
+    APP_STATE.bookmarks.forEach(b => {
+        if (b.collection === name) {
+            delete b.collection;
+        }
+    });
+
+    saveCollections();
+    saveBookmarks();
+    renderCollectionsList();
+    renderCollectionTabs();
+    renderBookmarks();
+    showToast(`Collection "${name}" deleted`);
+}
+
+function moveBookmarkToCollection(reference, collectionName) {
+    const bookmark = APP_STATE.bookmarks.find(b => b.reference === reference);
+    if (bookmark) {
+        if (collectionName) {
+            bookmark.collection = collectionName;
+        } else {
+            delete bookmark.collection;
+        }
+        saveBookmarks();
+        renderBookmarks();
+        showToast(collectionName ? `Moved to "${collectionName}"` : 'Removed from collection');
+    }
+}
+
+function saveCollections() {
+    try {
+        localStorage.setItem('bookmarkCollections', JSON.stringify(APP_STATE.collections));
+    } catch (error) {
+        console.error('Error saving collections:', error);
+    }
 }
