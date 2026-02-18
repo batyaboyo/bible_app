@@ -2241,12 +2241,16 @@ body.dark-mode .verse-item[data-highlight="purple"] {
     right: 0;
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     z-index: 2000;
     padding: var(--spacing-lg);
     animation: modalFadeIn 0.2s ease;
+}
+
+.modal-overlay.active {
+    display: flex;
 }
 
 @keyframes modalFadeIn {

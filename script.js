@@ -3489,8 +3489,8 @@ function initializeKeyboardShortcuts() {
             hideSearchResults();
 
             // Close any open modals
-            const modals = document.querySelectorAll('.modal-overlay:not([hidden])');
-            modals.forEach(m => m.hidden = true);
+            const modals = document.querySelectorAll('.modal-overlay.active');
+            modals.forEach(m => m.classList.remove('active'));
 
             const nav = document.querySelector('.nav');
             const menuToggle = document.querySelector('.mobile-menu-toggle');
@@ -3517,11 +3517,11 @@ function initializeHighlightModal() {
     const saveBtn = document.getElementById('highlight-save-btn');
     const colorBtns = document.querySelectorAll('.highlight-color-btn');
 
-    closeBtn.addEventListener('click', () => modal.hidden = true);
-    cancelBtn.addEventListener('click', () => modal.hidden = true);
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
+    cancelBtn.addEventListener('click', () => modal.classList.remove('active'));
 
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.hidden = true;
+        if (e.target === modal) modal.classList.remove('active');
     });
 
     colorBtns.forEach(btn => {
@@ -3535,7 +3535,7 @@ function initializeHighlightModal() {
     saveBtn.addEventListener('click', () => {
         const note = document.getElementById('highlight-note-input').value.trim();
         saveHighlight(highlightModalRef, highlightModalColor, note);
-        modal.hidden = true;
+        modal.classList.remove('active');
         showToast('Highlight saved! 🎨');
     });
 }
@@ -3555,7 +3555,7 @@ function openHighlightModal(reference, plainText) {
         btn.classList.toggle('selected', btn.dataset.color === highlightModalColor);
     });
 
-    document.getElementById('highlight-modal').hidden = false;
+    document.getElementById('highlight-modal').classList.add('active');
 }
 
 function saveHighlight(reference, color, note) {
@@ -3628,9 +3628,9 @@ function initializeCompareModal() {
     const modal = document.getElementById('compare-modal');
     const closeBtn = document.getElementById('compare-modal-close');
 
-    closeBtn.addEventListener('click', () => modal.hidden = true);
+    closeBtn.addEventListener('click', () => modal.classList.remove('active'));
     modal.addEventListener('click', (e) => {
-        if (e.target === modal) modal.hidden = true;
+        if (e.target === modal) modal.classList.remove('active');
     });
 }
 
@@ -3643,7 +3643,7 @@ async function openCompareModal(bookName, chapter, verseNum) {
     title.textContent = `Compare: ${bookName} ${chapter}:${verseNum}`;
     results.innerHTML = '';
     loader.style.display = 'flex';
-    modal.hidden = false;
+    modal.classList.add('active');
 
     // Get bookId
     const bookId = BOOK_NAME_TO_ID[bookName] || bookName;
@@ -3839,14 +3839,14 @@ function initializeCollections() {
     const modalClose = document.getElementById('collections-modal-close');
     if (modalClose) {
         modalClose.addEventListener('click', () => {
-            document.getElementById('collections-modal').hidden = true;
+            document.getElementById('collections-modal').classList.remove('active');
         });
     }
 
     const modal = document.getElementById('collections-modal');
     if (modal) {
         modal.addEventListener('click', (e) => {
-            if (e.target === modal) modal.hidden = true;
+            if (e.target === modal) modal.classList.remove('active');
         });
     }
 
@@ -3909,7 +3909,7 @@ function renderCollectionTabs() {
 }
 
 function openCollectionsModal() {
-    document.getElementById('collections-modal').hidden = false;
+    document.getElementById('collections-modal').classList.add('active');
     document.getElementById('new-collection-input').value = '';
     renderCollectionsList();
 }
