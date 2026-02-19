@@ -18,8 +18,113 @@ const APP_STATE = {
     highlights: {},        // { "John 3:16": { color: "yellow", note: "..." } }
     readingProgress: {},   // { "GEN": [1,2,3], "MAT": [1,5] }
     collections: ['Favorites', 'Promises', 'Comfort'],  // default collections
-    activeCollection: 'all'
+    activeCollection: 'all',
+    lastPosition: null,    // { bookId, bookName, chapter, verse }
+    searchAbortController: null
 };
+
+// ========================================
+// API Cache (in-memory, per session)
+// ========================================
+const apiCache = new Map();
+const CACHE_TTL = 10 * 60 * 1000; // 10 minutes
+
+function getCacheKey(...parts) {
+    return parts.join('|');
+}
+
+function getFromCache(key) {
+    const entry = apiCache.get(key);
+    if (!entry) return null;
+    if (Date.now() - entry.timestamp > CACHE_TTL) {
+        apiCache.delete(key);
+        return null;
+    }
+    return entry.data;
+}
+
+function setCache(key, data) {
+    // Evict oldest entries when cache grows too large
+    if (apiCache.size > 200) {
+        const oldest = apiCache.keys().next().value;
+        apiCache.delete(oldest);
+    }
+    apiCache.set(key, { data, timestamp: Date.now() });
+}
+
+// ========================================
+// API Retry Utility
+// ========================================
+async function fetchWithRetry(url, options = {}, maxRetries = 3) {
+    let lastError;
+    for (let attempt = 0; attempt < maxRetries; attempt++) {
+        try {
+            const response = await fetch(url, options);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response;
+        } catch (error) {
+            lastError = error;
+            if (options.signal && options.signal.aborted) throw error;
+            if (attempt < maxRetries - 1) {
+                const delay = Math.min(1000 * Math.pow(2, attempt), 8000);
+                await new Promise(r => setTimeout(r, delay));
+            }
+        }
+    }
+    throw lastError;
+}
+
+// ========================================
+// Safe LocalStorage Utility
+// ========================================
+function safeSetItem(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        if (e.name === 'QuotaExceededError' || e.code === 22) {
+            // Try to free space by cleaning old quiz results
+            cleanupOldStorage();
+            try {
+                localStorage.setItem(key, value);
+            } catch (e2) {
+                console.error('LocalStorage full even after cleanup:', e2);
+                showToast('Storage full. Some data could not be saved.', 'error');
+            }
+        } else {
+            console.error('LocalStorage error:', e);
+        }
+    }
+}
+
+function cleanupOldStorage() {
+    // Remove old quiz results older than 30 days
+    const keysToCheck = [];
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key && key.startsWith('bibleQuiz_')) {
+            keysToCheck.push(key);
+        }
+    }
+    // Remove all but the 7 most recent quiz keys
+    if (keysToCheck.length > 7) {
+        keysToCheck.sort();
+        keysToCheck.slice(0, keysToCheck.length - 7).forEach(k => localStorage.removeItem(k));
+    }
+    // Also clean old prayer log entries (keep last 60 days)
+    try {
+        const prayerLog = JSON.parse(localStorage.getItem('prayerLog') || '{}');
+        const cutoff = new Date();
+        cutoff.setDate(cutoff.getDate() - 60);
+        let changed = false;
+        for (const dateStr of Object.keys(prayerLog)) {
+            if (new Date(dateStr) < cutoff) {
+                delete prayerLog[dateStr];
+                changed = true;
+            }
+        }
+        if (changed) localStorage.setItem('prayerLog', JSON.stringify(prayerLog));
+    } catch (e) { /* ignore */ }
+}
 
 // Dynamically loaded data
 let TRANSLATIONS = [];
@@ -135,45 +240,105 @@ async function initializeApp() {
     initializeHighlightModal();
     initializeCompareModal();
     initializeCollections();
+    initializeScrollToTop();
+
+    // Restore last reading position
+    restoreReadingPosition();
 }
 
 // ========================================
-// API Functions
+// Reading Position Memory
+// ========================================
+
+function saveReadingPosition(book, chapter) {
+    try {
+        const position = { bookId: book.id, bookName: book.name, chapter: chapter, chapters: book.chapters };
+        safeSetItem('lastReadingPosition', JSON.stringify(position));
+    } catch (e) {
+        console.error('Error saving reading position:', e);
+    }
+}
+
+function restoreReadingPosition() {
+    try {
+        const saved = localStorage.getItem('lastReadingPosition');
+        if (!saved) return;
+        const position = JSON.parse(saved);
+        if (position && position.bookId && position.chapter) {
+            const allBooks = [...BIBLE_BOOKS.oldTestament, ...BIBLE_BOOKS.newTestament];
+            const book = allBooks.find(b => b.id === position.bookId);
+            if (book) {
+                APP_STATE.lastPosition = { book, chapter: position.chapter };
+            }
+        }
+    } catch (e) {
+        console.error('Error restoring reading position:', e);
+    }
+}
+
+// ========================================
+// API Functions (with caching and retry)
 // ========================================
 
 async function fetchTranslationsAPI() {
+    const cacheKey = getCacheKey('translations');
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
     const url = `${API_BASE}/available_translations.json`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
+    const response = await fetchWithRetry(url);
+    const data = await response.json();
+    setCache(cacheKey, data);
+    return data;
 }
 
 async function fetchCommentariesAPI() {
+    const cacheKey = getCacheKey('commentaries');
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
     const url = `${API_BASE}/available_commentaries.json`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
+    const response = await fetchWithRetry(url);
+    const data = await response.json();
+    setCache(cacheKey, data);
+    return data;
 }
 
 async function fetchBooksAPI(translationId) {
+    const cacheKey = getCacheKey('books', translationId);
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
     const url = `${API_BASE}/${encodeURIComponent(translationId)}/books.json`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
+    const response = await fetchWithRetry(url);
+    const data = await response.json();
+    setCache(cacheKey, data);
+    return data;
 }
 
-async function fetchChapterAPI(translationId, bookId, chapter) {
+async function fetchChapterAPI(translationId, bookId, chapter, signal) {
+    const cacheKey = getCacheKey('chapter', translationId, bookId, chapter);
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
     const url = `${API_BASE}/${encodeURIComponent(translationId)}/${encodeURIComponent(bookId)}/${chapter}.json`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
+    const options = signal ? { signal } : {};
+    const response = await fetchWithRetry(url, options);
+    const data = await response.json();
+    setCache(cacheKey, data);
+    return data;
 }
 
 async function fetchCommentaryChapterAPI(commentaryId, bookId, chapter) {
+    const cacheKey = getCacheKey('commentary', commentaryId, bookId, chapter);
+    const cached = getFromCache(cacheKey);
+    if (cached) return cached;
+
     const url = `${API_BASE}/c/${encodeURIComponent(commentaryId)}/${encodeURIComponent(bookId)}/${chapter}.json`;
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    return response.json();
+    const response = await fetchWithRetry(url);
+    const data = await response.json();
+    setCache(cacheKey, data);
+    return data;
 }
 
 // ========================================
@@ -289,7 +454,7 @@ function loadState() {
             // Migrate old bible-api.com version IDs to HelloAO
             if (VERSION_MIGRATION[savedVersion]) {
                 APP_STATE.currentVersion = VERSION_MIGRATION[savedVersion];
-                localStorage.setItem('bibleVersion', APP_STATE.currentVersion);
+                safeSetItem('bibleVersion', APP_STATE.currentVersion);
             } else {
                 APP_STATE.currentVersion = savedVersion;
             }
@@ -333,7 +498,7 @@ function loadState() {
 
 function saveBookmarks() {
     try {
-        localStorage.setItem('bibleBookmarks', JSON.stringify(APP_STATE.bookmarks));
+        safeSetItem('bibleBookmarks', JSON.stringify(APP_STATE.bookmarks));
     } catch (error) {
         console.error('Error saving bookmarks:', error);
         showToast('Failed to save bookmark', 'error');
@@ -342,7 +507,7 @@ function saveBookmarks() {
 
 function saveTheme() {
     try {
-        localStorage.setItem('darkMode', APP_STATE.darkMode.toString());
+        safeSetItem('darkMode', APP_STATE.darkMode.toString());
     } catch (error) {
         console.error('Error saving theme:', error);
     }
@@ -351,9 +516,9 @@ function saveTheme() {
 function saveDailyVerse(verse) {
     try {
         const today = new Date().toDateString();
-        localStorage.setItem('dailyVerse', JSON.stringify(verse));
-        localStorage.setItem('dailyVerseDate', today);
-        localStorage.setItem('dailyVerseVersion', APP_STATE.currentVersion);
+        safeSetItem('dailyVerse', JSON.stringify(verse));
+        safeSetItem('dailyVerseDate', today);
+        safeSetItem('dailyVerseVersion', APP_STATE.currentVersion);
     } catch (error) {
         console.error('Error saving daily verse:', error);
     }
@@ -361,7 +526,7 @@ function saveDailyVerse(verse) {
 
 function saveVersion() {
     try {
-        localStorage.setItem('bibleVersion', APP_STATE.currentVersion);
+        safeSetItem('bibleVersion', APP_STATE.currentVersion);
     } catch (error) {
         console.error('Error saving version:', error);
     }
@@ -369,7 +534,7 @@ function saveVersion() {
 
 function saveCommentary() {
     try {
-        localStorage.setItem('bibleCommentary', APP_STATE.currentCommentary);
+        safeSetItem('bibleCommentary', APP_STATE.currentCommentary);
     } catch (error) {
         console.error('Error saving commentary:', error);
     }
@@ -395,7 +560,8 @@ function navigateTo(page) {
 
     const pages = document.querySelectorAll('.page');
     pages.forEach(p => p.classList.remove('active'));
-    document.getElementById(page).classList.add('active');
+    const activePage = document.getElementById(page);
+    activePage.classList.add('active');
 
     const navLinks = document.querySelectorAll('.nav-link');
     navLinks.forEach(link => {
@@ -413,6 +579,13 @@ function navigateTo(page) {
     if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
 
     window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Focus management for accessibility — focus the page heading
+    const heading = activePage.querySelector('h1, h2, h3, .page-header');
+    if (heading) {
+        heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+    }
 
     // Initialize quiz when navigating to it
     if (page === 'quiz') {
@@ -656,6 +829,9 @@ function showChapterSelection(book) {
 
 async function loadChapter(book, chapter) {
     APP_STATE.currentChapter = chapter;
+
+    // Save reading position for restoration
+    saveReadingPosition(book, chapter);
 
     const chapterSelection = document.getElementById('chapter-selection');
     const verseDisplay = document.getElementById('verse-display');
@@ -973,9 +1149,13 @@ function renderCommentary(data, panel) {
 }
 
 function escapeHTML(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
+    if (typeof str !== 'string') return '';
+    return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
 }
 
 // ========================================
@@ -1085,6 +1265,13 @@ function handleSearchFocus(e) {
 async function performSearch(query) {
     const searchResults = document.querySelector('.search-results');
 
+    // Cancel any in-flight search request
+    if (APP_STATE.searchAbortController) {
+        APP_STATE.searchAbortController.abort();
+    }
+    APP_STATE.searchAbortController = new AbortController();
+    const signal = APP_STATE.searchAbortController.signal;
+
     // Check if query looks like a verse reference
     const referencePattern = /^(\d?\s?[A-Za-z]+(?:\s+of\s+[A-Za-z]+)?)\s+(\d+):?(\d+)?(-\d+)?$/;
     const match = query.match(referencePattern);
@@ -1109,7 +1296,9 @@ async function performSearch(query) {
             searchResults.style.display = 'block';
             searchResults.classList.remove('hidden');
 
-            const data = await fetchChapterAPI(APP_STATE.currentVersion, bookId, chapter);
+            const data = await fetchChapterAPI(APP_STATE.currentVersion, bookId, chapter, signal);
+
+            if (signal.aborted) return;
 
             if (data && data.chapter && data.chapter.content) {
                 let text = '';
@@ -1130,10 +1319,41 @@ async function performSearch(query) {
                 displaySearchResults([{ reference, text }]);
             }
         } catch (error) {
+            if (error.name === 'AbortError') return;
             searchResults.innerHTML = '<div class="search-no-results">Verse not found. Please check the reference.</div>';
         }
+    } else if (query.length >= 3) {
+        // Keyword search across popular verses and currently loaded chapter
+        const results = [];
+        const lowerQuery = query.toLowerCase();
+
+        // Search through popular verses
+        for (const pv of POPULAR_VERSES) {
+            if (pv.text && pv.text.toLowerCase().includes(lowerQuery)) {
+                results.push({ reference: pv.reference, text: pv.text });
+            }
+        }
+
+        // Search through bookmarked verses
+        if (APP_STATE.bookmarks) {
+            for (const bm of APP_STATE.bookmarks) {
+                const bmText = bm.text || '';
+                if (bmText.toLowerCase().includes(lowerQuery) || (bm.reference && bm.reference.toLowerCase().includes(lowerQuery))) {
+                    if (!results.find(r => r.reference === bm.reference)) {
+                        results.push({ reference: bm.reference, text: bmText });
+                    }
+                }
+            }
+        }
+
+        if (results.length > 0) {
+            displaySearchResults(results.slice(0, 10));
+        } else {
+            searchResults.innerHTML = '<div class="search-no-results">No matches found. Try a verse reference (e.g., "John 3:16") or different keywords.</div>';
+            searchResults.style.display = 'block';
+        }
     } else {
-        searchResults.innerHTML = '<div class="search-no-results">Enter a verse reference (e.g., "John 3:16") to search.</div>';
+        searchResults.innerHTML = '<div class="search-no-results">Enter a verse reference (e.g., "John 3:16") or keyword to search.</div>';
         searchResults.style.display = 'block';
     }
 }
@@ -1416,6 +1636,7 @@ function copyToClipboard(text) {
 }
 
 function shareVerse(reference, text) {
+    if (typeof reference !== 'string' || typeof text !== 'string') return;
     const shareText = `"${text}" - ${reference}`;
 
     if (navigator.share) {
@@ -1432,7 +1653,15 @@ function shareVerse(reference, text) {
     } else {
         const encodedText = encodeURIComponent(shareText);
         const twitterUrl = `https://twitter.com/intent/tweet?text=${encodedText}`;
-        window.open(twitterUrl, '_blank');
+        // Validate URL before opening
+        try {
+            const parsed = new URL(twitterUrl);
+            if (parsed.protocol === 'https:' && parsed.hostname === 'twitter.com') {
+                window.open(twitterUrl, '_blank', 'noopener,noreferrer');
+            }
+        } catch (e) {
+            console.error('Invalid share URL:', e);
+        }
     }
 }
 
@@ -1833,13 +2062,13 @@ function saveQuizResult() {
             questions: QUIZ_STATE.questions,
             answers: QUIZ_STATE.answers
         };
-        localStorage.setItem('bibleQuiz_' + QUIZ_STATE.dateKey, JSON.stringify(data));
+        safeSetItem('bibleQuiz_' + QUIZ_STATE.dateKey, JSON.stringify(data));
 
         // Save streak
         const streak = loadQuizStreak();
         streak.lastDate = QUIZ_STATE.dateKey;
         streak.totalQuizzes = (streak.totalQuizzes || 0) + 1;
-        localStorage.setItem('bibleQuizStreak', JSON.stringify(streak));
+        safeSetItem('bibleQuizStreak', JSON.stringify(streak));
     } catch (e) {
         // localStorage full or unavailable
     }
@@ -3411,7 +3640,7 @@ function completePrayer() {
         prayerLog[today] = {};
     }
     prayerLog[today][currentPrayerTime] = true;
-    localStorage.setItem('prayerLog', JSON.stringify(prayerLog));
+    safeSetItem('prayerLog', JSON.stringify(prayerLog));
 
     updatePrayerStreak();
     showToast('Prayer time complete! God bless you. 🙏');
@@ -3485,8 +3714,16 @@ function sharePrayer() {
 
 function initializeKeyboardShortcuts() {
     document.addEventListener('keydown', (e) => {
+        // Don't trigger shortcuts when typing in inputs
+        const tag = (e.target.tagName || '').toLowerCase();
+        if (tag === 'input' || tag === 'textarea' || tag === 'select') return;
+
         if (e.key === 'Escape') {
             hideSearchResults();
+
+            // Close keyboard help overlay
+            const helpOverlay = document.getElementById('keyboard-help-overlay');
+            if (helpOverlay) helpOverlay.classList.remove('active');
 
             // Close any open modals
             const modals = document.querySelectorAll('.modal-overlay.active');
@@ -3499,7 +3736,59 @@ function initializeKeyboardShortcuts() {
                 if (menuToggle) menuToggle.setAttribute('aria-expanded', 'false');
             }
         }
+
+        // Arrow key chapter navigation (only when reading a chapter)
+        if (APP_STATE.currentPage === 'bible' && APP_STATE.currentBook && APP_STATE.currentChapter) {
+            if (e.key === 'ArrowLeft' && !e.ctrlKey && !e.metaKey) {
+                const prevBtn = document.getElementById('prev-chapter');
+                if (prevBtn && !prevBtn.disabled) prevBtn.click();
+            } else if (e.key === 'ArrowRight' && !e.ctrlKey && !e.metaKey) {
+                const nextBtn = document.getElementById('next-chapter');
+                if (nextBtn && !nextBtn.disabled) nextBtn.click();
+            }
+        }
+
+        // '?' key shows keyboard shortcuts help
+        if (e.key === '?' && !e.ctrlKey && !e.metaKey) {
+            toggleKeyboardHelp();
+        }
+
+        // '/' key focuses search
+        if (e.key === '/' && !e.ctrlKey && !e.metaKey) {
+            e.preventDefault();
+            const searchInput = document.querySelector('.search-input');
+            if (searchInput) searchInput.focus();
+        }
     });
+}
+
+function toggleKeyboardHelp() {
+    let overlay = document.getElementById('keyboard-help-overlay');
+    if (!overlay) {
+        overlay = document.createElement('div');
+        overlay.id = 'keyboard-help-overlay';
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML = `
+            <div class="modal keyboard-help-modal">
+                <div class="modal-header">
+                    <h3>Keyboard Shortcuts</h3>
+                    <button class="modal-close" aria-label="Close">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="shortcut-row"><kbd>/</kbd> <span>Focus search</span></div>
+                    <div class="shortcut-row"><kbd>?</kbd> <span>Show this help</span></div>
+                    <div class="shortcut-row"><kbd>&larr;</kbd> <span>Previous chapter</span></div>
+                    <div class="shortcut-row"><kbd>&rarr;</kbd> <span>Next chapter</span></div>
+                    <div class="shortcut-row"><kbd>Esc</kbd> <span>Close modals / search</span></div>
+                </div>
+            </div>`;
+        document.body.appendChild(overlay);
+        overlay.querySelector('.modal-close').addEventListener('click', () => overlay.classList.remove('active'));
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) overlay.classList.remove('active');
+        });
+    }
+    overlay.classList.toggle('active');
 }
 
 // ========================================
@@ -3565,7 +3854,7 @@ function saveHighlight(reference, color, note) {
         APP_STATE.highlights[reference] = { color: color === 'none' ? '' : color, note };
     }
 
-    localStorage.setItem('verseHighlights', JSON.stringify(APP_STATE.highlights));
+    safeSetItem('verseHighlights', JSON.stringify(APP_STATE.highlights));
 
     // Re-apply to visible verse if on screen
     const verseItems = document.querySelectorAll('.verse-item');
@@ -3722,7 +4011,7 @@ function markChapterRead(bookId, chapter) {
     if (!APP_STATE.readingProgress[bookId].includes(chapter)) {
         APP_STATE.readingProgress[bookId].push(chapter);
         APP_STATE.readingProgress[bookId].sort((a, b) => a - b);
-        localStorage.setItem('readingProgress', JSON.stringify(APP_STATE.readingProgress));
+        safeSetItem('readingProgress', JSON.stringify(APP_STATE.readingProgress));
     }
 }
 
@@ -3995,7 +4284,7 @@ function moveBookmarkToCollection(reference, collectionName) {
 
 function saveCollections() {
     try {
-        localStorage.setItem('bookmarkCollections', JSON.stringify(APP_STATE.collections));
+        safeSetItem('bookmarkCollections', JSON.stringify(APP_STATE.collections));
     } catch (error) {
         console.error('Error saving collections:', error);
     }
